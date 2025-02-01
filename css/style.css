@@ -8,36 +8,25 @@ body {
     height: 100vh;
     margin: 0;
 }
-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-}
-nav .boutton-retour {
-    position: absolute;
-    top: 18px;
-    left: 20px;
-    width: 10vw;
-    height: auto;
-    cursor: pointer;
-}
 .background-text {
     position: absolute;
     top: 5%;
     left: 5%;
-    right: 5%; /* Updated to ensure equal spacing */
+    right: 15%;
     font-size: 5vw; /* Responsive font size */
     color: #142849; /* Updated color */
     font-weight: bold;
-
 }
 
+.boutton-retour {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    width: 5%;
+    height: auto;
+    cursor: pointer;
+}
 
 h2 {
     color: #142849;
@@ -49,9 +38,9 @@ h2 {
 .login-container {
     background: linear-gradient(to top, #FDFDFD, #F6F7F8); /* Gradient background */
     padding: 20px;
-    border-radius: 28px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 50%; /* Responsive width */
+    width: 80%; /* Responsive width */
     max-width: 400px; /* Maximum width */
     text-align: center;
     position: relative;
@@ -102,9 +91,8 @@ input {
 }
 
 button {
-    width: 50%; /* Reduced width */
+    width: 60%; /* Reduced width */
     padding: 15px; /* Increased height */
-    margin: 15px;
     background-color: white; /* White background */
     color: #434E5F; /* Updated text color */
     border: 2px solid #DFDFDF; /* Added border */
@@ -141,52 +129,10 @@ footer {
     bottom: 0;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .icone {
-        width: 20%; /* Adjust size for smaller screens */
+        width: 15%; /* Adjust size for larger screens */
         right: 1%;
-    }
-    nav .boutton-retour {
-        position: absolute;
-        top: 18px;
-        left: 20px;
-        width: 15vw;
-        height: auto;
-        cursor: pointer;
-    }
-    .background-text {
-        position: absolute;
-        top: 5%;
-        left: 10%;
-        right: 10%; /* Ensure equal spacing on mobile */
-        font-size: 7vw; /* Responsive font size */
-        color: #142849; /* Updated color */
-        font-weight: bold;
-        margin-top: 5%;
-    }
-    .login-container {
-        background: linear-gradient(to top, #FDFDFD, #F6F7F8); /* Gradient background */
-        padding: 20px;
-        border-radius: 28px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        width: 75%; /* Responsive width */
-        max-width: 400px; /* Maximum width */
-        text-align: center;
-        position: relative;
-        z-index: 1; /* Ensure form is above the background */
-    }
-    button {
-        width: 60%; /* Reduced width */
-        padding: 15px; /* Increased height */
-        margin: 15px;
-        background-color: white; /* White background */
-        color: #434E5F; /* Updated text color */
-        border: 2px solid #DFDFDF; /* Added border */
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 130%;
-        font-family: 'Roboto', sans-serif;
     }
 }
 
