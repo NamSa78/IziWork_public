@@ -305,7 +305,6 @@ a:hover {
     width: 0px;
     transition: all 0.3s ease-in-out 0s;
   }
-
   .navmenu a:hover:before,
   .navmenu li:hover>a:before,
   .navmenu .active:before {
@@ -921,6 +920,27 @@ section,
   margin-bottom: 20px; /* Ajuste l'espace sous le titre */
 }
 
+/* Center the "Hébergement" and "Restauration" cards on the page */
+.services-background .container {
+    display: flex;
+    justify-content: center; /* Center the cards horizontally */
+    align-items: center; /* Center the cards vertically */
+    flex-direction: column; /* Stack the cards vertically */
+}
+
+.services-background .row {
+    display: flex;
+    justify-content: center; /* Center the cards horizontally */
+    align-items: center; /* Center the cards vertically */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.services-background .service-item {
+    background: rgba(255, 255, 255, 0.3); /* Slightly transparent background */
+    padding: 30px;
+    margin: 10px; /* Add margin between cards */
+    text-align: center; /* Center text inside the cards */
+}
 
 /* Vérifie que l’image prend toute la place et ne soit pas couverte par une autre couleur */
 .services-img {
