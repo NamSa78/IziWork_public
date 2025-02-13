@@ -86,27 +86,60 @@ def login():
 def ajouter():
     from werkzeug.security import generate_password_hash
     
+    # Récupération des valeurs du formulaire
     nom = request.form.get('nom')
+    prenom = request.form.get('prenom')
     email = request.form.get('email')
-    password = request.form.get('password')
-
-    if not (nom and email and password):
-        return "Tous les champs sont requis", 400
+    phone = request.form.get('phone')
+    street = request.form.get('street')
+    postal = request.form.get('postal-code')
+    city = request.form.get('city')
+    fonction = request.form.get('fonction')
+    date_ajout = request.form.get('date-ajout')
+    siret = request.form.get('siret')
     
-    # Hash le mot de passe avant de le stocker
-    hashed_password = generate_password_hash(password)
+    new_password = request.form.get('new-password')
+    confirm_password = request.form.get('confirm-password')
     
-    # Crée un nouvel utilisateur (à adapter selon votre modèle)
+    # Vérification des champs obligatoires
+    if not (nom and prenom and email and new_password):
+        return "Tous les champs obligatoires ne sont pas remplis", 400
+    if new_password != confirm_password:
+        return "Les mots de passe ne correspondent pas", 400
+    
+    # Hash du mot de passe
+    hashed_password = generate_password_hash(new_password)
+    
+    # Utilisation de la date fournie ou d'une valeur par défaut
+    if not date_ajout:
+        date_ajout = '2000-01-01'
+    
+    # Création du nouvel utilisateur
     new_user = User(
         nom=nom,
-        prenom='',  # à compléter si nécessaire
+        prenom=prenom,
         email=email,
         password=hashed_password,
-        naissance='2000-01-01'  # exemple, à adapter
+        telephone=phone,
+        fonction=fonction
     )
     
     db.session.add(new_user)
     db.session.commit()
+    
+    # Ajout de l'adresse si les informations sont fournies
+    if street and postal and city:
+        new_address = AdressePostale(
+            user_id=new_user.id,
+            rue=street,
+            code_postal=postal,
+            ville=city,
+            pays="France"  # Valeur par défaut
+        )
+        db.session.add(new_address)
+        db.session.commit()
+    
+    # Vous pouvez ultérieurement traiter le SIRET ou tout autre champ spécifique
     
     return "Utilisateur ajouté", 201
 
