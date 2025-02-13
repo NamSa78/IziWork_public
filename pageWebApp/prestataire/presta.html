@@ -1,5 +1,6 @@
 !DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <script defer src="script.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
 
     <!-- Barre de navigation supérieure -->
@@ -15,14 +17,15 @@
         <div class="logo-container">
             <div class="logo">IZI WORK</div>
             <div class="sous_logo">ADMIN</div>
-        </div>    
+        </div>
         <button class="logout-btn">Déconnexion</button>
     </header>
 
     <!-- Barre latérale rétractable -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <button class="toggle-btn"><img src="image/flèche.svg" alt="Dropdown Icon" width="16" height="16"></button> <!-- Flèche pour rétracter -->
+            <button class="toggle-btn"><img src="image/flèche.svg" alt="Dropdown Icon" width="16" height="16"></button>
+            <!-- Flèche pour rétracter -->
         </div>
         <nav class="sidebar-nav">
             <ul>
@@ -33,7 +36,7 @@
         </nav>
         <div class="sidebar-footer">
             <img src="image/bonhomme.svg" alt="Bonhomme Icon" width="30" height="30">
-            <a href="#">UTILISATEUR</a> 
+            <a href="#">UTILISATEUR</a>
         </div>
     </aside>
 
@@ -43,39 +46,45 @@
         <h2>Ajouter un prestataire</h2>
         <section class="form-container">
             <h1>Ajouter un prestataire</h1>
-            
-            <div class="prestataire-nom">
-                <h2><span contenteditable="true">[Nom du prestataire]</span> <i class="fas fa-edit"></i></h2>
-            </div>
-        
-            <form>
+
+            <form method="post">
+                <div class="form-Nom">
+                    <label for="Nom">Nom</label>
+                    <input type="text" id="Nom" name="Nom">
+                </div>
+
+                <div class="form-Prénom">
+                    <label for="Prenom">Prénom</label>
+                    <input type="text" id="Prénom" name="Prénom">
+                </div>
+
                 <div class="form-group">
                     <label for="email">Adresse mail</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-        
+
                 <div class="form-group">
                     <label for="phone">Numéro de téléphone</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
-        
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="street">Adresse postale Rue</label>
                         <input type="text" id="street" name="street">
                     </div>
-        
+
                     <div class="form-group">
                         <label for="postal-code">Code postale</label>
                         <input type="text" id="postal-code" name="postal-code">
                     </div>
-        
+
                     <div class="form-group">
                         <label for="city">Ville</label>
                         <input type="text" id="city" name="city">
                     </div>
                 </div>
-        
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fonction">Fonction</label>
@@ -86,34 +95,36 @@
                             <option value="chef">Chef de cuisine</option>
                         </select>
                     </div>
-        
+
                     <div class="form-group">
                         <label for="date-ajout">Date d'ajout du prestataire</label>
                         <input type="date" id="date-ajout" name="date-ajout">
                     </div>
-        
+
                     <div class="form-group">
                         <label for="siret">SIRET</label>
                         <input type="text" id="siret" name="siret">
                     </div>
                 </div>
-        
+
                 <div class="form-group password-section">
                     <label for="new-password">Mot de passe</label>
                     <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe">
-                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirmer mot de passe">
+                    <input type="password" id="confirm-password" name="confirm-password"
+                        placeholder="Confirmer mot de passe">
                     <button type="button" class="modify-btn">Modifier</button>
                 </div>
-        
+
                 <div class="form-buttons">
                     <button type="submit" class="save-btn">Enregistrer</button>
                     <button type="reset" class="delete-btn">Supprimer</button>
                 </div>
             </form>
-        </section>        
+        </section>
         <img src="image/copyBtn.svg" alt="Empty Icon" width="20" height="20">
         <!-- Ton tableau ou autres contenus ici -->
     </main>
 
 </body>
+
 </html>

@@ -13,7 +13,7 @@ body {
     left: 0;
     width: 100%;
     height: 60px;
-    background : linear-gradient(-90deg, #0A1931 0%, #142849 100%);
+    background: linear-gradient(-90deg, #0A1931 0%, #142849 100%);
     color: white;
     display: flex;
     justify-content: space-between;
@@ -26,7 +26,7 @@ body {
     position: fixed;
 }
 
-.main-content .h2{
+.main-content .h2 {
     margin: 0;
 }
 
@@ -40,7 +40,7 @@ body {
 .top-nav .logo {
     font-weight: bold;
     font-size: 18px;
-    
+
 }
 
 .top-nav .sous_logo {
@@ -61,6 +61,7 @@ body {
 .logout-btn:hover {
     background-color: white;
     color: #0A1931;
+    display: flex;
 }
 
 /* Barre latérale */
@@ -87,16 +88,18 @@ body {
     transform: translateX(60%);
     right: 0;
     z-index: 1000;
+    display: flex;
+    justify-content: center;
 }
 
 .sidebar-nav ul li a.Planning,
-.sidebar-nav ul li a.Prestataires{
-    padding-bottom: 35px; 
-    margin: 0 auto; 
-    display: block;
+.sidebar-nav ul li a.Prestataires {
+    padding-bottom: 35px;
+    margin: 0 auto;
+    display: flex;
 }
 
-.sidebar-nav ul li a.Prestataires{
+.sidebar-nav ul li a.Prestataires {
     padding-top: 15px;
     padding-bottom: 20px;
     font-weight: bold;
@@ -104,32 +107,32 @@ body {
     margin-left: 16px;
 }
 
-.sidebar-nav ul li a.Compte{
-    padding-top: 11px;
-    border-top: 2px solid white; 
+.sidebar-nav ul li a.Compte {
+    border-top: 2px solid white;
     width: 60%;
     margin: 0 auto;
     padding-top: 50px;
-    
+
 }
 
-.sidebar-nav ul li a.Planning{
-    padding-top: 11px;
-    border-bottom: 2px solid white; 
+.sidebar-nav ul li a.Planning {
+    padding-left: 16px;
+    border-bottom: 2px solid white;
     width: 60%;
     margin: 0 auto;
-    
+
 }
 
 .sidebar-nav ul li a.Planning,
 .sidebar-nav ul li a.Compte {
-    color: rgba(255, 255, 255, 0.4); /* Réduire l'intensité de la couleur */
+    color: rgba(255, 255, 255, 0.4);
+    /* Réduire l'intensité de la couleur */
 }
 
 .sidebar-nav ul li a.Planning:hover,
 .sidebar-nav ul li a.Compte:hover {
     color: white;
-    transition: all 0.7s;
+    transition: all 0.6s;
     font-weight: bold;
     font-size: 23px;
 }
@@ -137,7 +140,7 @@ body {
 .toggle-btn {
     cursor: pointer;
     font-size: 18px;
-    color: #142849; 
+    color: #142849;
     border: none;
     z-index: 1000;
     background-color: #0f203c;
@@ -148,13 +151,13 @@ body {
 }
 
 .sidebar-nav {
-    display: block;
+    display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     justify-content: center;
     top: 50%;
-    transform: translateY(154px);
+    transform: translateY(460px);
     right: 0;
 }
 
@@ -178,6 +181,7 @@ body {
     text-decoration: none;
     display: block;
 }
+
 .sidebar-nav ul li a {
     color: white;
     text-decoration: none;
@@ -185,8 +189,9 @@ body {
     font-size: 20px;
 }
 
-.sidebar-nav ul li:hover, .sidebar-nav ul li.active {
-    color:rgba(to color #142849, 1.5);
+.sidebar-nav ul li:hover,
+.sidebar-nav ul li.active {
+    color: rgba(to color #142849, 1.5);
     text-decoration: bold;
 }
 
@@ -217,7 +222,7 @@ body {
 
 .sidebar.collapsed .sidebar-nav ul li a {
     text-align: center;
-    display: none; 
+    display: none;
 }
 
 .sidebar.collapsed .sidebar-footer {
@@ -230,12 +235,13 @@ body {
 .main-content {
     flex: 1;
     margin-left: 250px;
-    padding: 80px 20px; /* Ajuste la hauteur en tenant compte du header */
+    padding: 80px 20px;
+    /* Ajuste la hauteur en tenant compte du header */
     transition: margin-left 0.3s ease-in-out;
 }
 
 /* Quand la sidebar est rétractée */
-.sidebar.collapsed + .main-content {
+.sidebar.collapsed+.main-content {
     margin-left: 60px;
 }
 
@@ -249,7 +255,7 @@ body {
         width: 0;
     }
 
-    .sidebar.collapsed + .main-content {
+    .sidebar.collapsed+.main-content {
         margin-left: 0;
     }
 
@@ -264,11 +270,11 @@ body {
 
 /* Conteneur du formulaire */
 .form-container {
-    max-width: 800px;
+    width: 150%;
     margin: auto;
     padding: 20px;
     background: white;
-    padding-bottom: 100px; 
+    padding-bottom: 100px;
 }
 
 .form-container h1 {
@@ -300,7 +306,8 @@ label {
     margin-bottom: 5px;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -356,5 +363,3 @@ input, select {
     cursor: pointer;
     border-radius: 5px;
 }
-
-
