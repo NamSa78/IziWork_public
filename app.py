@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///IZIWORK-BDD.db'
@@ -66,6 +67,8 @@ class Indisponibilite(db.Model):
     horaire_debut = db.Column('Horaire_debut', db.Time, nullable=False)
     horaire_fin = db.Column('Horaire_fin', db.Time, nullable=False)
 
+with app.app_context():
+    db.create_all()  # Crée toutes les tables au démarrage de l'app
 # Routes
 @app.route('/login', methods=['POST'])
 def login():
@@ -85,7 +88,7 @@ def login():
 @app.route('/ajouter', methods=['POST'])
 def ajouter():
     from werkzeug.security import generate_password_hash
-    
+
     # Récupération des valeurs du formulaire
     nom = request.form.get('nom')
     prenom = request.form.get('prenom')
@@ -110,10 +113,14 @@ def ajouter():
     # Hash du mot de passe
     hashed_password = generate_password_hash(new_password)
     
-    # Utilisation de la date fournie ou d'une valeur par défaut
+    # Utilisation de la date fournie ou d'une valeur par défaut et conversion en objet date
     if not date_ajout:
         date_ajout = '2000-01-01'
-    
+    try:
+        date_naissance = datetime.strptime(date_ajout, "%Y-%m-%d").date()
+    except ValueError:
+        return "Format de date invalide", 400
+        
     # Création du nouvel utilisateur
     new_user = User(
         nom=nom,
@@ -121,7 +128,9 @@ def ajouter():
         email=email,
         password=hashed_password,
         telephone=phone,
-        fonction=fonction
+        naissance=date_naissance,
+        fonction=fonction,
+        photo=""
     )
     
     db.session.add(new_user)
@@ -139,13 +148,62 @@ def ajouter():
         db.session.add(new_address)
         db.session.commit()
     
-    # Vous pouvez ultérieurement traiter le SIRET ou tout autre champ spécifique
-    
     return "Utilisateur ajouté", 201
 
 @app.route('/api/test')
 def test_api():
-    return jsonify({'status': 'API fonctionnelle'})
+    return jsonify(User.query.all())
+
+@app.route('/presta', methods=['GET', 'POST'])
+def presta():
+    if request.method == 'POST':
+        # Récupération des données du formulaire
+        nom = request.form.get('nom')
+        prenom = request.form.get('prenom')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        street = request.form.get('street')
+        postal = request.form.get('postal-code')
+        city = request.form.get('city')
+        fonction = request.form.get('fonction')
+        date_naissance = request.form.get('date-naissance')
+        password = request.form.get('password')
+
+        # Validation des champs obligatoires
+        if not (nom and prenom and email and password):
+            return "Veuillez remplir tous les champs obligatoires", 400
+
+        # Création de l'utilisateur
+        hashed_password = generate_password_hash(password)
+        new_user = User(
+            nom=nom,
+            prenom=prenom,
+            email=email,
+            password=hashed_password,
+            telephone=phone,
+            fonction=fonction,
+            naissance=datetime.strptime(date_naissance, "%Y-%m-%d").date(),
+            photo=""
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        # Création de l'adresse si les champs sont remplis
+        if street and postal and city:
+            new_address = AdressePostale(
+                user_id=new_user.id,
+                rue=street,
+                code_postal=postal,
+                ville=city,
+                pays="France"
+            )
+            db.session.add(new_address)
+            db.session.commit()
+
+        return "Formulaire soumis avec succès!", 201
+
+    return render_template('prestataire/presta.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

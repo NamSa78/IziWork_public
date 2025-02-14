@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de Bord</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
@@ -24,7 +24,7 @@
     <!-- Barre latérale rétractable -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <button class="toggle-btn"><img src="image/flèche.svg" alt="Dropdown Icon" width="16" height="16"></button>
+            <button class="toggle-btn"><img src="{{ url_for('static', filename='image/flèche.svg') }}" alt="Dropdown Icon" width="16" height="16"></button>
             <!-- Flèche pour rétracter -->
         </div>
         <nav class="sidebar-nav">
@@ -35,7 +35,7 @@
             </ul>
         </nav>
         <div class="sidebar-footer">
-            <img src="image/bonhomme.svg" alt="Bonhomme Icon" width="30" height="30">
+            <img src="{{ url_for('static', filename='image/bonhomme.svg') }}" alt="Bonhomme Icon" width="30" height="30">
             <a href="#">UTILISATEUR</a>
         </div>
     </aside>
