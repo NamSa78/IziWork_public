@@ -8,6 +8,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///IZIWORK-BDD.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+with app.app_context():
+    db.create_all()
+
 # Modèles
 class User(db.Model):
     __tablename__ = 'USERS'
@@ -66,16 +69,6 @@ class Indisponibilite(db.Model):
     date_fin = db.Column('Date_fin', db.Date, nullable=False)
     horaire_debut = db.Column('Horaire_debut', db.Time, nullable=False)
     horaire_fin = db.Column('Horaire_fin', db.Time, nullable=False)
-
-# Création des tables lors de la première requête
-@app.before_first_request
-def initialize_database():
-    db.create_all()
-
-# Fermeture de la session après chaque requête
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db.session.remove()
 
 # Routes
 @app.route('/login', methods=['POST'])
