@@ -1,0 +1,139 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to top, #14284925, #FFFFFF 100%); /* Gradient background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.background-text {
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    right: 15%;
+    font-size: 5vw; /* Responsive font size */
+    color: #142849; /* Updated color */
+    font-weight: bold;
+}
+
+.boutton-retour {
+    position: absolute;
+    top: 18px;
+    left: 20px;
+    width: 5%;
+    height: auto;
+    cursor: pointer;
+}
+
+h2 {
+    color: #142849;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-container {
+    background: linear-gradient(to top, #FDFDFD, #F6F7F8); /* Gradient background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%; /* Responsive width */
+    max-width: 400px; /* Maximum width */
+    text-align: center;
+    position: relative;
+    z-index: 1; /* Ensure form is above the background */
+}
+
+#loginForm {
+    margin-right: 5%; /* Increased margin between top of form and inputs */
+    margin-left: 5%; /* Increased margin between bottom of form and inputs */
+    margin-top: 2%;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+    font-size: 150%;
+}
+
+.input-group-password {
+    position: relative;
+    margin-bottom: 50px;
+    text-align: left;
+    font-size: 150%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.forgot-password {
+    position: absolute;
+    left: 0;
+    bottom: -20px;
+    font-size: 12px;
+    color: #72828A;
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+}
+
+button {
+    width: 60%; /* Reduced width */
+    padding: 15px; /* Increased height */
+    background-color: white; /* White background */
+    color: #434E5F; /* Updated text color */
+    border: 2px solid #DFDFDF; /* Added border */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 130%;
+    font-family: 'Roboto', sans-serif;
+}
+
+button:hover {
+    background-color: #f0f0f0; /* Light grey background on hover */
+}
+
+.roboto-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-background {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.icone {
+    position: absolute;
+    right: 1%;
+    width: 10%;
+}
+
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .icone {
+        width: 15%; /* Adjust size for larger screens */
+        right: 1%;
+    }
+}
+
+

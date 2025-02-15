@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login/style.css') }}">
+    <style>
+        @font-face {
+            font-family: 'Roboto';
+            src: url('path/to/roboto-font.woff2') format('woff2');
+        }
+        
+    </style>
+</head>
+<body>
+    <nav>
+        <img src="{{url_for('static', filename='image/login/Boutton-retour.svg')}}" alt="Retour" class="boutton-retour" href="../index.html">
+    </nav>
+    
+    <div class="background-text">
+        Connectez-vous pour accéder à votre espace
+    </div>
+    <div class="login-container">
+        
+        <form id="loginForm" method="post" action="/login">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <div class="input-group-password">
+                <label for="password" class="roboto-font">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+                <a href="mdp-oublie.html" class="forgot-password">Mot de passe oublié</a>
+            </div>
+            <button type="submit">Connexion</button>
+        </form>
+    </div>
+    
+    <footer>
+        <img src="{{url_for('static', filename='image/login/logo.svg')}}" alt="Icone" class="icone">
+        <img src="{{url_for('static', filename='image/login/fond.svg')}}" alt="Fond" class="footer-background">
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

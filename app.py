@@ -1,18 +1,22 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///IZIWORK-BDD.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = '123456789'  # N'oubliez pas de mettre une clé secrète sécurisée
+
 db = SQLAlchemy(app)
 
-with app.app_context():
-    db.create_all()
+# Initialisation de flask-login
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'  # Nom de la fonction de connexion
 
 # Modèles
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'USERS'
     id = db.Column('ID', db.Integer, primary_key=True)
     email = db.Column('Adresse_mail', db.String(255), unique=True, nullable=False)
@@ -70,21 +74,58 @@ class Indisponibilite(db.Model):
     horaire_debut = db.Column('Horaire_debut', db.Time, nullable=False)
     horaire_fin = db.Column('Horaire_fin', db.Time, nullable=False)
 
-# Routes
-@app.route('/login', methods=['POST'])
+with app.app_context():
+    db.create_all()
+
+# Fonction pour charger un utilisateur
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Route de connexion
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    data = request.get_json()
-    user = User.query.filter_by(email=data.get('email')).first()
-    
-    if user and check_password_hash(user.password, data.get('password')):
-        return jsonify({
+    if request.method == 'POST':
+        # Pour la connexion via formulaire (cf. templates/login/connexion.html)
+        email = request.form.get('email')  # Assurez-vous que le champ HTML s'appelle 'email'
+        password = request.form.get('password')
+        user = User.query.filter_by(email=email).first()
+        
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('compte'))
+        else:
+            flash("Identifiants invalides")
+            return render_template('login/connexion.html')
+    return render_template('login/connexion.html')
+
+# Route de déconnexion
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+# Exemple de route protégée
+@app.route('/users', methods=['GET'])
+@login_required
+def get_all_users():
+    users = User.query.all()
+    result = []
+    for user in users:
+        result.append({
             'id': user.id,
             'email': user.email,
             'nom': user.nom,
-            'prenom': user.prenom
-        }), 200
-    
-    return jsonify({'message': 'Identifiants invalides'}), 401
+            'prenom': user.prenom,
+            'photo': user.photo,
+            'telephone': user.telephone,
+            'naissance': user.naissance.isoformat() if user.naissance else None,
+            'fonction': user.fonction
+        })
+    return jsonify(result)
+
+
 
 @app.route('/ajouter', methods=['POST'])
 def ajouter():
@@ -156,6 +197,7 @@ def test_api():
     return jsonify(User.query.all())
 
 @app.route('/presta', methods=['GET', 'POST'])
+@login_required
 def presta():
     if request.method == 'POST':
         from werkzeug.security import generate_password_hash
@@ -228,22 +270,10 @@ def presta():
 
     return render_template('prestataire/presta.html')
 
-@app.route('/users', methods=['GET'])
-def get_all_users():
-    users = User.query.all()
-    result = []
-    for user in users:
-        result.append({
-            'id': user.id,
-            'email': user.email,
-            'nom': user.nom,
-            'prenom': user.prenom,
-            'photo': user.photo,
-            'telephone': user.telephone,
-            'naissance': user.naissance.isoformat() if user.naissance else None,
-            'fonction': user.fonction
-        })
-    return jsonify(result)
+@app.route('/compte')
+@login_required
+def compte():
+    return render_template('adminCompte/compte.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
