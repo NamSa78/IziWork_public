@@ -67,8 +67,16 @@ class Indisponibilite(db.Model):
     horaire_debut = db.Column('Horaire_debut', db.Time, nullable=False)
     horaire_fin = db.Column('Horaire_fin', db.Time, nullable=False)
 
-with app.app_context():
-    db.create_all()  # Crée toutes les tables au démarrage de l'app
+# Création des tables lors de la première requête
+@app.before_first_request
+def initialize_database():
+    db.create_all()
+
+# Fermeture de la session après chaque requête
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db.session.remove()
+
 # Routes
 @app.route('/login', methods=['POST'])
 def login():
@@ -157,7 +165,9 @@ def test_api():
 @app.route('/presta', methods=['GET', 'POST'])
 def presta():
     if request.method == 'POST':
-        # Récupération des données du formulaire
+        from werkzeug.security import generate_password_hash
+
+        # Récupération des valeurs du formulaire
         nom = request.form.get('nom')
         prenom = request.form.get('prenom')
         email = request.form.get('email')
@@ -166,44 +176,81 @@ def presta():
         postal = request.form.get('postal-code')
         city = request.form.get('city')
         fonction = request.form.get('fonction')
-        date_naissance = request.form.get('date-naissance')
-        password = request.form.get('password')
-
-        # Validation des champs obligatoires
-        if not (nom and prenom and email and password):
-            return "Veuillez remplir tous les champs obligatoires", 400
-
-        # Création de l'utilisateur
-        hashed_password = generate_password_hash(password)
+        date_ajout = request.form.get('date-ajout')
+        siret = request.form.get('siret')
+        
+        new_password = request.form.get('new-password')
+        confirm_password = request.form.get('confirm-password')
+        
+        # Vérification des champs obligatoires
+        if not (nom and prenom and email and new_password):
+            return "Tous les champs obligatoires ne sont pas remplis", 400
+        if new_password != confirm_password:
+            return "Les mots de passe ne correspondent pas", 400
+        
+        # Vérification des conflits : ici, on s'assure que l'email n'est pas déjà utilisé
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return "Un utilisateur avec cet email existe déjà", 400
+        
+        # Hash du mot de passe
+        hashed_password = generate_password_hash(new_password)
+        
+        # Utilisation de la date fournie ou d'une valeur par défaut et conversion en objet date
+        if not date_ajout:
+            date_ajout = '2000-01-01'
+        try:
+            date_naissance = datetime.strptime(date_ajout, "%Y-%m-%d").date()
+        except ValueError:
+            return "Format de date invalide", 400
+            
+        # Création du nouvel utilisateur
         new_user = User(
             nom=nom,
             prenom=prenom,
             email=email,
             password=hashed_password,
             telephone=phone,
+            naissance=date_naissance,
             fonction=fonction,
-            naissance=datetime.strptime(date_naissance, "%Y-%m-%d").date(),
             photo=""
         )
-
+        
         db.session.add(new_user)
         db.session.commit()
-
-        # Création de l'adresse si les champs sont remplis
+        
+        # Ajout de l'adresse si les informations sont fournies
         if street and postal and city:
             new_address = AdressePostale(
                 user_id=new_user.id,
                 rue=street,
                 code_postal=postal,
                 ville=city,
-                pays="France"
+                pays="France"  # Valeur par défaut
             )
             db.session.add(new_address)
             db.session.commit()
-
-        return "Formulaire soumis avec succès!", 201
+        
+        return "Utilisateur ajouté", 201
 
     return render_template('prestataire/presta.html')
+
+@app.route('/users', methods=['GET'])
+def get_all_users():
+    users = User.query.all()
+    result = []
+    for user in users:
+        result.append({
+            'id': user.id,
+            'email': user.email,
+            'nom': user.nom,
+            'prenom': user.prenom,
+            'photo': user.photo,
+            'telephone': user.telephone,
+            'naissance': user.naissance.isoformat() if user.naissance else None,
+            'fonction': user.fonction
+        })
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(debug=True)
