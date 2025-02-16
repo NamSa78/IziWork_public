@@ -270,6 +270,12 @@ def presta():
 
     return render_template('prestataire/presta.html')
 
+@app.route('/prestataires')
+@login_required
+def prestataires():
+    users = User.query.all()  # Récupération des utilisateurs depuis la base de données
+    return render_template('liste_presta/liste_presta.html', users=users)
+
 @app.route('/compte')
 @login_required
 def compte():

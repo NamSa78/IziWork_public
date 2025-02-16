@@ -328,6 +328,7 @@ select {
 .password-section {
     display: flex;
     flex-direction: column;
+    margin: 10px 0;
 }
 
 .modify-btn {
@@ -363,3 +364,126 @@ select {
     cursor: pointer;
     border-radius: 5px;
 }
+
+/* liste_prestataires */
+.container {
+    margin: auto;
+    background: white;
+    padding: 20px;
+}
+/* HEADER */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+header h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: black;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    background: #007bff15;
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.add-btn img {
+    margin-left: 5px;
+}
+
+.add-btn:hover {
+    background: #007bff2D;
+}
+/* Table */
+table {
+    width: 90vw;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+th {
+    font-weight: bold;
+    background: #F1F3F5;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Actions */
+.actions-cell {
+    position: relative;
+    width: 50px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.action-btn:hover {
+    background-color: #E9ECEF;
+    border-radius: 5px;
+}
+
+/* Dropdown */
+.dropdown {
+    display: none;
+    position: absolute;
+    right: 0;
+    background: #6C757D;
+    color: white;
+    min-width: 120px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 10;
+}
+
+.dropdown button {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown button:hover {
+    background-color: #495057;
+}
+
+/* Affichage du menu au clic */
+.actions-cell:hover .dropdown {
+    display: block;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    font-size: 14px;
+    color: #6C757D;
+}
+/* Fin de la liste des prestataires */

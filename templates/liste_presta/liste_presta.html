@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Prestataires</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/presta_liste/script.js') }}"></script>
+</head>
+<body>
+
+    {% include 'includes/header.html' %}
+
+    <div class="container">
+        <div class="header">
+            <h2>Liste des prestataires</h2>
+            <a href="{{ url_for('presta') }}" class="add-btn">Ajouter un prestataire <img src="{{ url_for('static', filename='image/add_presta.svg') }}"/></a>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom du prestataire</th>
+                    <th>Actions</th>
+                    <th>Fonction</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.nom }} {{ user.prenom }}</td>
+                    
+                    <td class="actions-cell">
+                        <button class="action-btn">⋮</button>
+                        <div class="dropdown">
+                            <button class="modify-btn" onclick="modifier('{{ user.id }}')">Modifier</button>
+                            <button class="delete-btn" onclick="supprimer('{{ user.id }}')">Supprimer</button>
+                        </div>
+                    </td>
+
+                    <td>{{ user.fonction }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <span>1 - 25</span>
+            <span>Page 1</span>
+        </div>
+    </div>
+
+</body>
+</html>
