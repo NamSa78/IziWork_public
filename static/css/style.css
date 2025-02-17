@@ -509,11 +509,11 @@ tbody tr:last-child td {
 .modal-content {
     background-color: #9F7081;
     margin: 15% auto; /* Centré verticalement */
-    padding: 20px;
+    padding: 10px;
     border: 1px solid #888;
     width: 300px; /* Largeur de la modal */
     text-align: center;
-    border-radius: 5px;
+    border-radius: 30px;
 }
 
 .close {
@@ -530,8 +530,15 @@ tbody tr:last-child td {
 
 .modal-buttons button {
     margin: 0 10px;
-    padding: 5px 15px;
+    padding: 15px 15px;
     cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #9F7081;
+
+}
+.modal-buttons button:hover {
+    background-color: #7B4D5A;
 }
 /* Fin de la liste des prestataires */
 

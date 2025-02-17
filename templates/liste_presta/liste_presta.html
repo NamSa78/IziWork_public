@@ -34,7 +34,7 @@
                         <button class="action-btn">⋮</button>
                         <div class="dropdown">
                             <button class="modify-btn" onclick="modifier('{{ user.id }}')">Modifier</button>
-                            <button class="delete-btn" onclick="supprimer({{user.id}})">Supprimer</button>
+                            <button class="delete-btn" onclick="supprimer('{{user.id}}', '{{user.nom}}', '{{user.prenom}}')">Supprimer</button>
                         </div>
                     </td>
 
@@ -48,7 +48,7 @@
     <!-- Modal de confirmation de suppression -->
     <div id="confirmModal" class="modal">
         <div class="modal-content">
-            <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+            <p id="modalText">Suppression de l'utilisateur sélectionné</p>
             <div class="modal-buttons">
                 <button onclick="confirmDelete()">Confirmez</button>
                 <button onclick="closeModal()">Annuler</button>

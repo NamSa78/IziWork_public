@@ -279,9 +279,45 @@ def presta():
 
     return render_template('prestataire/presta.html')
 
-@app.route('/prestataires')
+@app.route('/prestataires', methods=['GET', 'DELETE'])
 @login_required
 def prestataires():
+    if request.method == 'DELETE':
+        data = request.get_json()
+        user_id = data.get("id")
+        if not user_id:
+            return jsonify({"error": "ID manquant"}), 400
+        
+        user_to_delete = User.query.get(user_id)
+        if not user_to_delete:
+            return jsonify({"error": "Utilisateur non trouvé"}), 404
+
+        # Supprimer l'adresse liée
+        adresse = AdressePostale.query.filter_by(user_id=user_id).first()
+        if adresse:
+            db.session.delete(adresse)
+        
+        # Supprimer les historiques liés
+        historiques = Historique.query.filter_by(user_id=user_id).all()
+        for hist in historiques:
+            db.session.delete(hist)
+        
+        # Supprimer les disponibilités liées
+        disponibilites = Disponibilite.query.filter_by(user_id=user_id).all()
+        for dispo in disponibilites:
+            db.session.delete(dispo)
+        
+        # Supprimer les indisponibilités liées
+        indisponibilites = Indisponibilite.query.filter_by(user_id=user_id).all()
+        for indispo in indisponibilites:
+            db.session.delete(indispo)
+        
+        # Supprimer l'utilisateur
+        db.session.delete(user_to_delete)
+        db.session.commit()
+        return jsonify({"message": "Utilisateur et toutes ses relations supprimés"}), 200
+
+    # Méthode GET : afficher la liste des prestataires
     users = User.query.all()  # Récupération des utilisateurs depuis la base de données
     return render_template('liste_presta/liste_presta.html', users=users)
 

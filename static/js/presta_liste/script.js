@@ -8,18 +8,17 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function modifier(id) {
-    alert("Modifier l'utilisateur " + id);
+    window.location.href = "";
 }
-
-
-
 
 // Variable pour stocker l'ID de l'utilisateur à supprimer
 var userIdToDelete = null;
 
 // Cette fonction est appelée lors du clic sur le bouton "Supprimer" de chaque utilisateur
-function supprimer(id) {
+function supprimer(id, nom, prenom) {
     userIdToDelete = id;
+    // Mettre à jour le texte du modal si vous avez récupéré le nom de l'utilisateur, par exemple via un data-attribute
+    document.getElementById("modalText").textContent = "Suppression de " + nom + " " + prenom;
     document.getElementById("confirmModal").style.display = "block";
 }
 
@@ -29,8 +28,25 @@ function closeModal() {
     userIdToDelete = null;
 }
 
-// Confirme la suppression et redirige vers une route de suppression
+// Confirme la suppression et envoie une requête DELETE à la route /prestataire
 function confirmDelete() {
-    // Vous pourrez ensuite créer la route Flask /delete_user/<id> pour réaliser la suppression
-    window.location.href = "/delete_user/" + userIdToDelete;
+    fetch("/prestataires", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: userIdToDelete })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Rediriger vers /prestataire en cas de succès
+            window.location.href = "/prestataires";
+        } else {
+            alert("Erreur lors de la suppression");
+        }
+    })
+    .catch(error => {
+        console.error("Erreur:", error);
+        alert("Erreur lors de la suppression");
+    });
 }
