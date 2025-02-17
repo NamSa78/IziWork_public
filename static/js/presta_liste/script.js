@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function modifier(id) {
-    window.location.href = "";
+    window.location.href = "/admin/modify/prestataires?id=" + id;
 }
 
 // Variable pour stocker l'ID de l'utilisateur à supprimer

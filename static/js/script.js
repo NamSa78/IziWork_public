@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function () {
 function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     if (sidebar.classList.contains('collapsed')) {
-        sidebar.style.width = '10px';
+        sidebar.style.width = '1%';
     } else {
-        sidebar.style.width = '220px';
+        sidebar.style.width = '12%';
     }
-}
+}   

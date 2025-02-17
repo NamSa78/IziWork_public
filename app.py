@@ -126,72 +126,76 @@ def get_all_users():
     return jsonify(result)
 
 
-
-@app.route('/ajouter', methods=['POST'])
-def ajouter():
-    from werkzeug.security import generate_password_hash
-
-    # Récupération des valeurs du formulaire
-    nom = request.form.get('nom')
-    prenom = request.form.get('prenom')
-    email = request.form.get('email')
-    phone = request.form.get('phone')
-    street = request.form.get('street')
-    postal = request.form.get('postal-code')
-    city = request.form.get('city')
-    fonction = request.form.get('fonction')
-    date_ajout = request.form.get('date-ajout')
-    siret = request.form.get('siret')
-    
-    new_password = request.form.get('new-password')
-    confirm_password = request.form.get('confirm-password')
-    
-    # Vérification des champs obligatoires
-    if not (nom and prenom and email and new_password):
-        return "Tous les champs obligatoires ne sont pas remplis", 400
-    if new_password != confirm_password:
-        return "Les mots de passe ne correspondent pas", 400
-    
-    # Hash du mot de passe
-    hashed_password = generate_password_hash(new_password)
-    
-    # Utilisation de la date fournie ou d'une valeur par défaut et conversion en objet date
-    if not date_ajout:
-        date_ajout = '2000-01-01'
-    try:
-        date_naissance = datetime.strptime(date_ajout, "%Y-%m-%d").date()
-    except ValueError:
-        return "Format de date invalide", 400
+@app.route('/admin/modify/prestataires', methods=['GET','MODIFY'])
+@login_required
+def modifier():
+    if request.method == 'GET':
+        user_id = request.args.get('id')
+        if not user_id:
+            flash("Aucun utilisateur spécifié", "error")
+            return redirect(url_for('compte'))
+        user = User.query.get(user_id)
+        if not user:
+            flash("Utilisateur non trouvé", "error")
+            return redirect(url_for('compte'))
         
-    # Création du nouvel utilisateur
-    new_user = User(
-        nom=nom,
-        prenom=prenom,
-        email=email,
-        password=hashed_password,
-        telephone=phone,
-        naissance=date_naissance,
-        fonction=fonction,
-        photo=""
-    )
-    
-    db.session.add(new_user)
-    db.session.commit()
-    
-    # Ajout de l'adresse si les informations sont fournies
-    if street and postal and city:
-        new_address = AdressePostale(
-            user_id=new_user.id,
-            rue=street,
-            code_postal=postal,
-            ville=city,
-            pays="France"  # Valeur par défaut
-        )
-        db.session.add(new_address)
-        db.session.commit()
-    
-    return "Utilisateur ajouté", 201
+        # Préparation des données à transmettre au template
+        form_data = {
+            'id': user.id,
+            'nom': user.nom,
+            'prenom': user.prenom,
+            'email': user.email,
+            'phone': user.telephone,
+            'fonction': user.fonction,
+            'date-ajout': user.naissance.strftime("%Y-%m-%d") if user.naissance else ""
+        }
+        # Si l'utilisateur possède une adresse associée, on l'ajoute aux données
+        adresse = AdressePostale.query.filter_by(user_id=user.id).first()
+        if adresse:
+            form_data.update({
+                'street': adresse.rue,
+                'postal-code': adresse.code_postal,
+                'city': adresse.ville
+            })
+        
+        return render_template('admin_modify_presta/modify_prestataires.html', form_data=form_data)
 
+    elif request.method == 'MODIFY':
+        from werkzeug.security import generate_password_hash
+
+        # Récupération des valeurs du formulaire pour modification
+        nom = request.form.get('nom')
+        prenom = request.form.get('prenom')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
+        street = request.form.get('street')
+        postal = request.form.get('postal-code')
+        city = request.form.get('city')
+        fonction = request.form.get('fonction')
+        date_ajout = request.form.get('date-ajout')
+        siret = request.form.get('siret')
+        new_password = request.form.get('new-password')
+        confirm_password = request.form.get('confirm-password')
+        
+        # Vérification des champs obligatoires
+        if not (nom and prenom and email and new_password):
+            flash("Tous les champs obligatoires ne sont pas remplis", "error")
+            return render_template('compte/compte.html', form_data=request.form), 400
+        if new_password != confirm_password:
+            flash("Les mots de passe ne correspondent pas", "error")
+            return render_template('compte/compte.html', form_data=request.form), 400
+
+        # Vérification du conflit d'email (si l'email a été modifié)
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash("Un utilisateur avec cet email existe déjà", "error")
+            return render_template('compte/compte.html', form_data=request.form), 400
+
+        # Poursuite du traitement de modification...
+        # (Ici, vous compléterez la logique pour mettre à jour l'utilisateur existant)
+        
+        flash("Utilisateur modifié", "success")
+        return render_template('compte/compte.html', form_data={})
 
 @app.route('/')
 @login_required

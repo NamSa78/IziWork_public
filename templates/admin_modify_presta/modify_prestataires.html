@@ -35,10 +35,10 @@
 
     <!-- Contenu principal -->
     <main class="main-content">
-        <h2>Ajouter un prestataire</h2>
+        <h2>Modifier un prestataire</h2>
         <section class="form-container">
             <h1>Informations</h1>
-            <form method="post" action="/admin/ajout/prestataires" class="form">
+            <form method="post" action="/admin/modify/prestataires" class="form">
                 <div class="form-nom">
                     <label for="nom">Nom</label>
                     <input type="text" id="nom" name="nom" required value="{{ form_data.get('nom', '') }}">
@@ -114,7 +114,7 @@
                 </div>
             </form>
         </section>
-        <!-- Ton tableau ou autres contenus ici -->
+        <!-- Autres contenus éventuels -->
     </main>
     
     <!-- Par exemple, insérez ce bloc juste avant la fermeture de la balise </body> -->
@@ -122,7 +122,7 @@
     {% if messages %}
     <script>
         {% for category, message in messages %}
-        // Vous pouvez personnaliser le comportement en fonction de la catégorie
+        // Affichage simple via alerte (vous pouvez personnaliser le style selon la catégorie)
         alert("{{ message }}");
         {% endfor %}
     </script>
