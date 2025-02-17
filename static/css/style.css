@@ -274,9 +274,8 @@ body {
 .form-container {
     width: 150%;
     margin: auto;
-    padding: 20px;
+    padding: 10px 20px;
     background: white;
-    padding-bottom: 100px;
 }
 
 .form-container h1 {
@@ -305,15 +304,15 @@ body {
 label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin: 5px;
 }
 
 input,
 select {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid #0000001e;
+    border-radius: 10px;
 }
 
 /* Disposition en ligne */
@@ -330,6 +329,10 @@ select {
 .password-section {
     display: flex;
     flex-direction: column;
+    margin: 10px 0;
+}
+
+#new-password {
     margin: 10px 0;
 }
 
@@ -441,11 +444,13 @@ tbody tr:last-child td {
     font-size: 18px;
     cursor: pointer;
     padding: 5px;
+    
 }
 
 .action-btn:hover {
     background-color: #E9ECEF;
     border-radius: 5px;
+    
 }
 
 /* Dropdown */
@@ -487,6 +492,46 @@ tbody tr:last-child td {
     padding: 15px 0;
     font-size: 14px;
     color: #6C757D;
+}
+
+/* Style pour la modal de confirmation */
+.modal {
+    display: none; /* Caché par défaut */
+    position: fixed;
+    z-index: 10000; /* Au-dessus de tout */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fond noir transparent */
+}
+
+.modal-content {
+    background-color: #9F7081;
+    margin: 15% auto; /* Centré verticalement */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* Largeur de la modal */
+    text-align: center;
+    border-radius: 5px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-buttons {
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    margin: 0 10px;
+    padding: 5px 15px;
+    cursor: pointer;
 }
 /* Fin de la liste des prestataires */
 

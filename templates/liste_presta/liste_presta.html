@@ -34,7 +34,7 @@
                         <button class="action-btn">⋮</button>
                         <div class="dropdown">
                             <button class="modify-btn" onclick="modifier('{{ user.id }}')">Modifier</button>
-                            <button class="delete-btn" onclick="supprimer('{{ user.id }}')">Supprimer</button>
+                            <button class="delete-btn" onclick="supprimer({{user.id}})">Supprimer</button>
                         </div>
                     </td>
 
@@ -43,10 +43,16 @@
                 {% endfor %}
             </tbody>
         </table>
-
-        <div class="pagination">
-            <span>1 - 25</span>
-            <span>Page 1</span>
+        </div>
+    </div>
+    <!-- Modal de confirmation de suppression -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+            <div class="modal-buttons">
+                <button onclick="confirmDelete()">Confirmez</button>
+                <button onclick="closeModal()">Annuler</button>
+            </div>
         </div>
     </div>
 

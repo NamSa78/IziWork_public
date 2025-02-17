@@ -320,6 +320,35 @@ def forgotPassword():
     
     return render_template('modify/password.html')
 
+@app.route('/modify/email', methods=['GET', 'POST'])
+@login_required
+def forgotEmail():
+    if request.method == 'POST':
+        from werkzeug.security import generate_password_hash
+
+        # Récupération des valeurs du formulaire
+        old_email = request.form.get('old-email')
+        new_email = request.form.get('new-email')
+        confirm_email = request.form.get('confirm-email')
+        
+        # Vérification des champs obligatoires
+        if not new_email:
+            return "Tous les champs obligatoires ne sont pas remplis", 400
+        if new_email != confirm_email:
+            return "Les 2 adresses e-mails ne correspondent pas", 400
+        
+        
+        # Modification du mot de passe
+        user = current_user
+        user.email = new_email
+        db.session.commit()
+        
+        return "E-mail modifié", 201
+        
+    
+    return render_template('modify/email.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
