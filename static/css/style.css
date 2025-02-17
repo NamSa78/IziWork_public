@@ -1,9 +1,11 @@
 /* Style général */
 body {
     margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     display: flex;
     height: 100vh;
+    background-color: #EFF5FB;
 }
 
 /* Barre de navigation supérieure */
@@ -487,3 +489,101 @@ tbody tr:last-child td {
     color: #6C757D;
 }
 /* Fin de la liste des prestataires */
+
+/* Compte */
+/* Style de base */  
+  .container-compte {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+  }
+
+  .container-compte h1 {
+    text-align: left;
+    margin-bottom: 30px;
+  }
+
+  /* Bloc principal (informations utilisateur) */
+  .account-box {
+    display: flex;
+    justify-content: space-between;
+    background-color: #d9ebff; /* Couleur de fond proche du bleu clair */
+    border-radius: 8px;
+    border: 2px solid black;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Partie gauche : infos texte */
+  .account-box .info-section {
+    flex: 1;
+    margin-right: 20px;
+  }
+  .account-box .info-section h2 {
+    margin: 0 0 15px 0;
+  }
+  .account-box .info-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  .account-box .info-section ul li {
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .account-box .edit-profile {
+    display: inline-block;
+    margin-top: 15px;
+    color: #0066cc;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* Partie droite : photo */
+  .account-box .photo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    background-color: #fff;
+    border-radius: 50%;
+    overflow: hidden;
+    text-align: center;
+    color: #666;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .account-box .photo-section p {
+    padding: 20px;
+  }
+
+  /* Bloc des réglages */
+  .settings-box {
+    background-color: #d9ebff;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .settings-box h2 {
+    margin-top: 0;
+  }
+  .settings-box ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .settings-box ul li {
+    margin-bottom: 10px;
+  }
+  .settings-box ul li a {
+    color: #0066cc;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* modify/password */
+  .form-modify-password {
+    display: none;
+    margin-top: 20px;
+  }

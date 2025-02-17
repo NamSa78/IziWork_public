@@ -192,6 +192,15 @@ def ajouter():
     
     return "Utilisateur ajouté", 201
 
+
+@app.route('/')
+@login_required
+def compte():
+    user = current_user
+    adresse = AdressePostale.query.filter_by(user_id=user.id).first()
+    
+    return render_template('compte/compte.html', user=user, adresse=adresse)
+
 @app.route('/api/test')
 def test_api():
     return jsonify(User.query.all())
@@ -276,10 +285,41 @@ def prestataires():
     users = User.query.all()  # Récupération des utilisateurs depuis la base de données
     return render_template('liste_presta/liste_presta.html', users=users)
 
-@app.route('/compte')
+# @app.route('/compte')
+# @login_required
+# def compte():
+#     return render_template('adminCompte/compte.html')
+
+@app.route('/modify/password', methods=['GET', 'POST'])
 @login_required
-def compte():
-    return render_template('adminCompte/compte.html')
+def forgotPassword():
+    if request.method == 'POST':
+        from werkzeug.security import generate_password_hash
+
+        # Récupération des valeurs du formulaire
+        old_password = request.form.get('old-password')
+        new_password = request.form.get('new-password')
+        confirm_password = request.form.get('confirm-password')
+        
+        # Vérification des champs obligatoires
+        if not new_password:
+            return "Tous les champs obligatoires ne sont pas remplis", 400
+        if new_password != confirm_password:
+            return "Les mots de passe ne correspondent pas", 400
+        
+        # Hash du mot de passe
+        hashed_password = generate_password_hash(new_password)
+        
+        # Modification du mot de passe
+        user = current_user
+        user.password = hashed_password
+        db.session.commit()
+        
+        return "Mot de passe modifié", 201
+        
+    
+    return render_template('modify/password.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
