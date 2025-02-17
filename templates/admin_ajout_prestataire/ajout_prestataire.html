@@ -45,25 +45,25 @@
         <h2>Ajouter un prestataire</h2>
         <section class="form-container">
             <h1>Informations</h1>
-            <form method="post" action="/presta" class="form">
+            <form method="post" action="/admin/ajout/prestataires" class="form">
                 <div class="form-nom">
                     <label for="nom">Nom</label>
-                    <input type="text" id="nom" name="nom">
+                    <input type="text" id="nom" name="nom" required value="{{ form_data.get('nom', '') }}">
                 </div>
 
                 <div class="form-prenom">
                     <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" name="prenom">
+                    <input type="text" id="prenom" name="prenom" required value="{{ form_data.get('prenom', '') }}">
                 </div>
 
                 <div class="form-group">
                     <label for="email">Adresse mail</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required value="{{ form_data.get('email', '') }}">
                 </div>
 
                 <div class="form-group">
                     <label for="phone">Numéro de téléphone</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <input type="tel" id="phone" name="phone" required value="{{ form_data.get('phone', '') }}">
                 </div>
                 <div class="adressePostal">
                     <p>Adresse postale</p>
@@ -72,17 +72,17 @@
                         
                         <div class="form-group">
                             <label for="street">Rue</label>
-                            <input type="text" id="street" name="street">
+                            <input type="text" id="street" name="street" value="{{ form_data.get('street', '') }}">
                         </div>
 
                         <div class="form-group">
                             <label for="postal-code">Code postale</label>
-                            <input type="text" id="postal-code" name="postal-code">
+                            <input type="text" id="postal-code" name="postal-code" value="{{ form_data.get('postal-code', '') }}">
                         </div>
 
                         <div class="form-group">
                             <label for="city">Ville</label>
-                            <input type="text" id="city" name="city">
+                            <input type="text" id="city" name="city" value="{{ form_data.get('city', '') }}">
                         </div>
                     </div>
                 </div>
@@ -92,28 +92,28 @@
                         <label for="fonction">Fonction</label>
                         <select id="fonction" name="fonction" >
                             <option value=""></option>
-                            <option value="reception">Réceptionniste</option>
-                            <option value="service">Serveur</option>
-                            <option value="chef">Chef de cuisine</option>
+                            <option value="reception" {% if form_data.get('fonction') == 'reception' %}selected{% endif %}>Réceptionniste</option>
+                            <option value="service" {% if form_data.get('fonction') == 'service' %}selected{% endif %}>Serveur</option>
+                            <option value="chef" {% if form_data.get('fonction') == 'chef' %}selected{% endif %}>Chef de cuisine</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="date-ajout">Date de naissance du prestataire</label>
-                        <input type="date" id="date-ajout" name="date-ajout">
+                        <input type="date" id="date-ajout" name="date-ajout" value="{{ form_data.get('date-ajout', '') }}">
                     </div>
 
                     <div class="form-group">
                         <label for="siret">SIRET</label>
-                        <input type="text" id="siret" name="siret">
+                        <input type="text" id="siret" name="siret" value="{{ form_data.get('siret', '') }}">
                     </div>
                 </div>
 
                 <div class="form-group password-section">
                     <label for="new-password">Mot de passe</label>
-                        <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe">
+                        <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe" required>
                         <input type="password" id="confirm-password" name="confirm-password"
-                            placeholder="Confirmer mot de passe">
+                            placeholder="Confirmer mot de passe" required>
                 </div>
 
                 <div class="form-buttons">
@@ -124,7 +124,17 @@
         <!-- Ton tableau ou autres contenus ici -->
     </main>
     
-
+    <!-- Par exemple, insérez ce bloc juste avant la fermeture de la balise </body> -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <script>
+        {% for category, message in messages %}
+        // Vous pouvez personnaliser le comportement en fonction de la catégorie
+        alert("{{ message }}");
+        {% endfor %}
+    </script>
+    {% endif %}
+    {% endwith %}
 </body>
 
 </html>

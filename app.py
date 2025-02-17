@@ -205,7 +205,7 @@ def compte():
 def test_api():
     return jsonify(User.query.all())
 
-@app.route('/presta', methods=['GET', 'POST'])
+@app.route('/admin/ajout/prestataires', methods=['GET', 'POST'])
 @login_required
 def presta():
     if request.method == 'POST':
@@ -222,31 +222,34 @@ def presta():
         fonction = request.form.get('fonction')
         date_ajout = request.form.get('date-ajout')
         siret = request.form.get('siret')
-        
         new_password = request.form.get('new-password')
         confirm_password = request.form.get('confirm-password')
         
         # Vérification des champs obligatoires
         if not (nom and prenom and email and new_password):
-            return "Tous les champs obligatoires ne sont pas remplis", 400
+            flash("Tous les champs obligatoires ne sont pas remplis", "error")
+            return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data=request.form), 400
         if new_password != confirm_password:
-            return "Les mots de passe ne correspondent pas", 400
-        
-        # Vérification des conflits : ici, on s'assure que l'email n'est pas déjà utilisé
+            flash("Les mots de passe ne correspondent pas", "error")
+            return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data=request.form), 400
+
+        # Vérification du conflit d'email
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
-            return "Un utilisateur avec cet email existe déjà", 400
+            flash("Un utilisateur avec cet email existe déjà", "error")
+            return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data=request.form), 400
         
         # Hash du mot de passe
         hashed_password = generate_password_hash(new_password)
         
-        # Utilisation de la date fournie ou d'une valeur par défaut et conversion en objet date
+        # Conversion de la date ou valeur par défaut
         if not date_ajout:
             date_ajout = '2000-01-01'
         try:
             date_naissance = datetime.strptime(date_ajout, "%Y-%m-%d").date()
         except ValueError:
-            return "Format de date invalide", 400
+            flash("Format de date invalide", "error")
+            return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data=request.form), 400
             
         # Création du nouvel utilisateur
         new_user = User(
@@ -259,25 +262,27 @@ def presta():
             fonction=fonction,
             photo=""
         )
-        
         db.session.add(new_user)
         db.session.commit()
         
-        # Ajout de l'adresse si les informations sont fournies
+        # Ajout de l'adresse si fournie
         if street and postal and city:
             new_address = AdressePostale(
                 user_id=new_user.id,
                 rue=street,
                 code_postal=postal,
                 ville=city,
-                pays="France"  # Valeur par défaut
+                pays="France"
             )
             db.session.add(new_address)
             db.session.commit()
         
-        return "Utilisateur ajouté", 201
+        flash("Utilisateur ajouté", "success")
+        users = User.query.all()
+        return render_template('liste_presta/liste_presta.html', users=users), 201
 
-    return render_template('prestataire/presta.html')
+    # Pour le GET, on peut envoyer un dictionnaire vide
+    return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data={})
 
 @app.route('/prestataires', methods=['GET', 'DELETE'])
 @login_required

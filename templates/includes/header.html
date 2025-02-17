@@ -3,5 +3,11 @@
         <div class="logo">IZI WORK</div>
         <div class="sous_logo">ADMIN</div>
     </div>
-    <button class="logout-btn">Déconnexion</button>
+    <button class="logout-btn" onclick="logout()">Déconnexion</button>
+    <script>
+        function logout() {
+            // Logic to log out the user
+            window.location.href = '/logout'; // Example: Redirect to a logout endpoint
+        }
+    </script>
 </header>
