@@ -1,7 +1,7 @@
 # IZIWORK
 Creation webapps pour IZIWORK
 
-
+pip install flask flask_sqlalchemy flask_login werkzeug
 TODO : 
 
 - Faire le responsive pour le contact
@@ -9,8 +9,9 @@ TODO :
 - Faire les mentions légal et CGU (responsive)
 - Nathan -> Mettre le footer dans la landingPage
 
+SIRET = 11 numéro 
+liste_presta.html 
 
-Commencement maximal de la webapp 
--> Semaine prochaine
 
-Mathis -> faire le front des pages de WebApp. 
+RAJOUTER COLONNE SIRET DANS LA TABLE USERS
+NOUVELLE TABLE FONCTION ID + Nom

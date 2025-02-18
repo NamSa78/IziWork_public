@@ -412,5 +412,13 @@ def historique():
     # Ou : historique_records = Historique.query.filter_by(user_id=current_user.id).all()
     return render_template('prestataire_historique/historique.html', historique=historique_records)
 
+@app.route('/prestataires/planning', methods=['GET'])
+@login_required
+def planning():
+    # On peut accéder aux disponibilités via la relation définie dans le modèle
+    dispo_records = current_user.disponibilites  
+    # Ou : dispo_records = Disponibilite.query.filter_by(user_id=current_user.id).all()
+    return render_template('presta_planning/planning.html', planning=dispo_records)
+
 if __name__ == '__main__':
     app.run(debug=True)

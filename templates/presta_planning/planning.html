@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Planning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <style>
+        /* Style général de la page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .planning-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Style des boutons */
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+        }
+
+        /* Style du calendrier FullCalendar */
+        #calendar {
+            background-color: rgb(136, 57, 57);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        /* Personnalisation des couleurs du calendrier */
+        .fc-toolbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .fc-button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .fc-button:hover {
+            background-color: #0056b3;
+        }
+
+        .fc-daygrid-day {
+            border: 1px solid #ddd;
+        }
+
+        .fc-daygrid-day-number {
+            color: #007bff;
+        }
+
+        .fc-event {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .fc-event:hover {
+            background-color: #218838;
+        }
+
+        /* Styles pour les fenêtres modales */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'includes/header.html' %}
+    
+    <main class="planning-container">
+        <h1>Mon planning</h1>
+        <button class="btn btn-secondary" id="goto-date-btn">Aller à une date</button>
+
+        <div id="calendar"></div>
+
+        <div class="actions">
+            <!-- Ajout des ids pour les boutons afin de les cibler dans le script -->
+            <button class="btn btn-primary" id="ajouter-disp-btn">Ajouter disp.</button>
+            <button class="btn btn-secondary" id="ajouter-indisp-btn">Ajouter indisp.</button>
+        </div>
+    </main>
+
+    <!-- Fenêtre modale pour la sélection de date -->
+    <div id="date-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Sélectionnez une date :</p>
+            <input type="date" id="date-input">
+            <button class="btn btn-primary" id="submit-date-btn">Valider</button>
+        </div>
+    </div>
+
+    <!-- Fenêtre modale pour "Ajouter disp." -->
+    <div id="disp-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter Disponibilité</h2>
+            <p>Veuillez saisir les détails de la disponibilité.</p>
+            <!-- Vous pouvez ajouter votre formulaire ici -->
+            <button class="btn btn-primary" id="submit-disp-btn">Valider</button>
+        </div>
+    </div>
+
+    <!-- Fenêtre modale pour "Ajouter indisp." -->
+    <div id="indisp-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ajouter Indisponibilité</h2>
+            <p>Veuillez saisir les détails de l'indisponibilité.</p>
+            <!-- Vous pouvez ajouter votre formulaire ici -->
+            <button class="btn btn-primary" id="submit-indisp-btn">Valider</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configuration du calendrier FullCalendar
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                }
+            });
+            calendar.render();
+
+            // Gestion de la fenêtre modale pour la date
+            var dateModal = document.getElementById('date-modal');
+            var gotoDateBtn = document.getElementById('goto-date-btn');
+            var submitDateBtn = document.getElementById('submit-date-btn');
+            var dateInput = document.getElementById('date-input');
+
+            gotoDateBtn.onclick = function() {
+                dateModal.style.display = 'block';
+            };
+
+            submitDateBtn.onclick = function() {
+                var selectedDate = dateInput.value;
+                if (selectedDate) {
+                    calendar.gotoDate(selectedDate);
+                    dateModal.style.display = 'none';
+                } else {
+                    alert('Veuillez sélectionner une date.');
+                }
+            };
+
+            // Gestion des fenêtres modales pour "Ajouter disp." et "Ajouter indisp."
+            var dispModal = document.getElementById('disp-modal');
+            var indispModal = document.getElementById('indisp-modal');
+            var ajouterDispBtn = document.getElementById('ajouter-disp-btn');
+            var ajouterIndispBtn = document.getElementById('ajouter-indisp-btn');
+
+            ajouterDispBtn.onclick = function() {
+                dispModal.style.display = 'block';
+            };
+
+            ajouterIndispBtn.onclick = function() {
+                indispModal.style.display = 'block';
+            };
+
+            // Gestion des boutons de fermeture pour tous les modals
+            var closeButtons = document.querySelectorAll('.modal .close');
+            closeButtons.forEach(function(btn) {
+                btn.onclick = function() {
+                    btn.parentElement.parentElement.style.display = 'none';
+                };
+            });
+
+            // Fermeture des modales si on clique en dehors
+            window.onclick = function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            };
+
+            // Vous pouvez ajouter ici des actions pour "submit-disp-btn" et "submit-indisp-btn"
+            document.getElementById('submit-disp-btn').onclick = function() {
+                // Traitement pour la disponibilité
+                alert('Disponibilité validée.');
+                dispModal.style.display = 'none';
+            };
+
+            document.getElementById('submit-indisp-btn').onclick = function() {
+                // Traitement pour l\'indisponibilité
+                alert('Indisponibilité validée.');
+                indispModal.style.display = 'none';
+            };
+        });
+    </script>
+</body>
+</html>
