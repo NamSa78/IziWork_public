@@ -18,24 +18,24 @@
             <div class="info-section">
                 <h2>{{ user.nom }} {{ user.prenom }}</h2>
                 <ul>
-                <li>Numéro de téléphone : {{ user.telephone }}</li>
-                <li>Adresse e-mail : {{ user.email }}</li>
-                <li>Adresse Postale : {{ adresse.rue }}, {{ adresse.ville }}, {{ adresse.code_postal }}</li>
-                <li>Date de Naissance : {{ user.naissance }}</li>
-                <li>Fonction : {{ user.fonction }}</li>
+                <li><img src="{{ url_for('static', filename='image/profile/telephone.svg')}}" /> Numéro de téléphone : {{ user.telephone }}</li>
+                <li><img src="{{ url_for('static', filename='image/profile/arobase.svg')}}" /> Adresse e-mail : {{ user.email }}</li>
+                <li><img src="{{ url_for('static', filename='image/profile/lettre.svg')}}" /> Adresse Postale : {{ adresse.rue }}, {{ adresse.ville }}, {{ adresse.code_postal }}</li>
+                <li><img src="{{ url_for('static', filename='image/profile/gateau.svg')}}" /> Date de Naissance : {{ user.naissance }}</li>
+                <li><img src="{{ url_for('static', filename='image/profile/user.svg')}}" /> <strong>  {{ user.fonction }}</strong></li>
                 </ul>
                 <span class="edit-profile" id="editProfileBtn">Modifier mon profil</span>
             </div>
             
             <!-- Section photo -->
-            <div class="photo-section">
+            <!-- <div class="photo-section">
                 <p>Ajouter une photo</p>
-            </div>
+            </div> -->
         </div>
 
         <!-- Deuxième boîte : Réglages -->
         <div class="settings-box">
-            <h2>Mes réglages</h2>
+            <h2>Mes réglages <img class="rouedenter" src="{{ url_for('static', filename='image/profile/rouedenter.svg')}}"/></h2>
             <ul>
                 <li><a href="#" id="changePasswordLink">Modifier mon mot de passe</a></li>
                 <li><a href="#" id="changeEmailLink">Modifier mon adresse mail</a></li>

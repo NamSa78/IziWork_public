@@ -400,7 +400,14 @@ header h2 {
     font-size: 14px;
     font-weight: bold;
 }
-
+.copy-btn {
+    background: none;
+    border: none;
+}
+.copy-btn:hover {
+    background-color: #E9ECEF;
+    border-radius: 5px;
+}
 .add-btn img {
     margin-left: 5px;
 }
@@ -619,6 +626,10 @@ tbody tr:last-child td {
   }
   .settings-box h2 {
     margin-top: 0;
+  }
+  .settings-box h2 .rouedenter {
+    width: 25px;
+    
   }
   .settings-box ul {
     list-style-type: none;

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Prestataires</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/presta_liste/script.js') }}"></script>
+</head>
+<body>
+
+    {% include 'includes/header.html' %}
+
+    <div class="container">
+        <div class="header">
+            <h2>Mon historique</h2>
+            <!-- Bouton pour copier uniquement les lignes sélectionnées -->
+            <button class="copy-btn" onclick="copySelectedRows()">
+                <img src="{{ url_for('static', filename='image/copybtn.svg') }}"/>
+            </button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sélection</th>
+                    <th>Nom de l'hôtel</th>
+                    <th>Date</th>
+                    <th>Horaire début</th>
+                    <th>Horaire fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in historique %}
+                <tr>
+                    <!-- Colonne de sélection -->
+                    <td><input type="checkbox" class="row-checkbox"></td>
+                    <td>{{ record.hotel.nom if record.hotel else 'Non défini' }}</td>
+                    <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                    <td>{{ record.debut.strftime('%H:%M:%S') }}</td>
+                    <td>{{ record.fin.strftime('%H:%M:%S') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de confirmation (optionnel, ici affiché après copie si besoin) -->
+    <div id="copy-popup" class="modal">
+        <div class="copy-content">
+            <p id="modalText">Copié !</p>
+        </div>
+    </div>
+
+    <script>
+    function copySelectedRows() {
+        // Récupère toutes les lignes du tableau
+        const rows = document.querySelectorAll('tbody tr');
+        let copiedText = "";
+        
+        rows.forEach(row => {
+            const checkbox = row.querySelector('.row-checkbox');
+            if (checkbox && checkbox.checked) {
+                // Récupérer le texte des colonnes sauf la première (la case)
+                const cells = row.querySelectorAll('td');
+                // On combine les colonnes 2 à 5 (index 1 à 4)
+                let rowText = [];
+                for (let i = 1; i < cells.length; i++) {
+                    rowText.push(cells[i].innerText.trim());
+                }
+                copiedText += rowText.join(" \t ") + "\n";
+            }
+        });
+        
+        if (copiedText) {
+            navigator.clipboard.writeText(copiedText).then(() => {
+                // Affiche le popup ou un message de confirmation optionnel
+                const popup = document.getElementById("copy-popup");
+                popup.style.display = "block";
+                setTimeout(() => { popup.style.display = "none"; }, 2000);
+            }, (err) => {
+                console.error('Erreur lors de la copie : ', err);
+            });
+        } else {
+            alert("Aucune ligne sélectionnée !");
+        }
+    }
+    </script>
+
+</body>
+</html>

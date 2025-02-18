@@ -77,6 +77,17 @@ class Indisponibilite(db.Model):
 with app.app_context():
     db.create_all()
 
+@app.route('/admin/ajout/hotels', methods=['GET'])
+def ajout_hotel():
+    hotel = Dictionnaire(nom="Novotel Paris coeur d'orly")
+    db.session.add(hotel)
+    hotel = Dictionnaire(nom="Ibis Paris coeur d'orly")
+    db.session.add(hotel)
+    hotel = Dictionnaire(nom="Novotel Evry")
+    db.session.add(hotel)
+    db.session.commit()
+    return jsonify({"message": "Hotels added successfully"}), 201
+
 # Fonction pour charger un utilisateur
 @login_manager.user_loader
 def load_user(user_id):
@@ -393,7 +404,13 @@ def forgotEmail():
     
     return render_template('modify/email.html')
 
-
+@app.route('/historique', methods=['GET'])
+@login_required
+def historique():
+    # On peut accéder à l'historique via la relation définie dans le modèle
+    historique_records = current_user.historique  
+    # Ou : historique_records = Historique.query.filter_by(user_id=current_user.id).all()
+    return render_template('prestataire_historique/historique.html', historique=historique_records)
 
 if __name__ == '__main__':
     app.run(debug=True)
