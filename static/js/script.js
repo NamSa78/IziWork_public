@@ -16,4 +16,4 @@ function toggleSidebar() {
     } else {
         sidebar.style.width = '12%';
     }
-}   
+}       

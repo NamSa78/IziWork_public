@@ -66,187 +66,6 @@ body {
     display: flex;
 }
 
-/* Barre latérale */
-.sidebar {
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 220px;
-    height: 100%;
-    background: linear-gradient(0deg, #0A1931 0%, #142849 100%);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    transition: width 0.3s ease-in-out;
-    justify-content: center;
-    margin-left: -127px;
-}
-
-/* Bouton pour rétracter la barre latérale */
-.sidebar-header {
-    position: absolute;
-    top: 50%;
-    transform: translateX(60%);
-    right: 0;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-}
-
-.sidebar-nav ul li a.Planning,
-.sidebar-nav ul li a.Prestataires {
-    padding-bottom: 35px;
-    margin: 0 auto;
-    display: flex;
-}
-
-.sidebar-nav ul li a.Prestataires {
-    padding-top: 15px;
-    padding-bottom: 20px;
-    font-weight: bold;
-    font-size: 23px;
-    margin-left: 16px;
-}
-
-.sidebar-nav ul li a.Compte {
-    border-top: 2px solid white;
-    width: 60%;
-    margin: 0 auto;
-    padding-top: 50px;
-
-}
-
-.sidebar-nav ul li a.Planning {
-    padding-left: 16px;
-    border-bottom: 2px solid white;
-    width: 60%;
-    margin: 0 auto;
-
-}
-
-.sidebar-nav ul li a.Planning,
-.sidebar-nav ul li a.Compte {
-    color: rgba(255, 255, 255, 0.4);
-    /* Réduire l'intensité de la couleur */
-}
-
-.sidebar-nav ul li a.Planning:hover,
-.sidebar-nav ul li a.Compte:hover {
-    color: white;
-    transition: all 0.6s;
-    font-weight: bold;
-    font-size: 23px;
-}
-
-.toggle-btn {
-    cursor: pointer;
-    font-size: 18px;
-    color: #142849;
-    border: none;
-    z-index: 1000;
-    background-color: #0f203c;
-    padding: 12px;
-    padding-right: 2px;
-    border-radius: 12px;
-
-}
-
-.sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    justify-content: center;
-    top: 50%;
-    transform: translateY(460px);
-    right: 0;
-}
-
-/* Navigation dans la barre latérale */
-.sidebar-nav ul {
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-}
-
-.sidebar-nav ul li {
-    padding: 15px 0px;
-    transition: 0.3s;
-    width: 100%;
-    text-align: center;
-
-}
-
-.sidebar-nav.collapsed ul li a {
-    color: #142849;
-    text-decoration: none;
-    display: block;
-}
-
-.sidebar-nav ul li a {
-    color: white;
-    text-decoration: none;
-    display: block;
-    font-size: 20px;
-}
-
-.sidebar-nav ul li:hover,
-.sidebar-nav ul li.active {
-    color: rgba(to color #142849, 1.5);
-    text-decoration: bold;
-}
-
-/* Pied de la barre latérale */
-.sidebar-footer {
-    margin-top: auto;
-    padding: 20px;
-    text-align: center;
-    font-size: 14px;
-    color: white;
-    text-decoration: none;
-}
-
-.sidebar-footer a {
-    color: white;
-    text-decoration: none;
-    justify-content: center;
-    display: block;
-    font-size: 12px;
-}
-
-
-/* Réduction de la barre latérale */
-.sidebar.collapsed {
-    width: 60px;
-
-}
-
-.sidebar.collapsed .sidebar-nav ul li a {
-    text-align: center;
-    display: none;
-}
-
-.sidebar.collapsed .sidebar-footer {
-    display: none;
-    text-decoration: none;
-    color: white;
-}
-
-/* ✅ Contenu principal */
-.main-content {
-    flex: 1;
-    margin-left: 250px;
-    padding: 80px 20px;
-    /* Ajuste la hauteur en tenant compte du header */
-    transition: margin-left 0.3s ease-in-out;
-}
-
-/* Quand la sidebar est rétractée */
-.sidebar.collapsed+.main-content {
-    margin-left: 60px;
-}
-
 /* 🔄 Responsive */
 @media (max-width: 768px) {
     .sidebar {
@@ -650,3 +469,148 @@ tbody tr:last-child td {
     display: none;
     margin-top: 20px;
   }
+
+
+  /* sidebar CSS */
+  
+
+/* Barre latérale */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100%;
+    background: linear-gradient(0deg, #0A1931 0%, #142849 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease-in-out;
+    z-index: 1000;
+    justify-content: center; /* Centre verticalement le contenu de la barre latérale */
+}
+
+/* Barre latérale rétractée */
+.sidebar.collapsed {
+    width: 25px;
+}
+
+.sidebar.collapsed .sidebar-nav ul li a {
+    display: none;
+}   
+
+
+
+/* Bouton pour rétracter la barre latérale */
+.sidebar-header {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    z-index: 1001;
+    display: flex;
+    justify-content: center;
+}
+
+.toggle-btn {
+    cursor: pointer;
+    color: white;
+    background: #11223e;
+    border: none;
+    z-index: 1001;
+    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    margin-left: 150%;
+
+}
+
+/* Navigation dans la barre latérale */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    flex-grow: 1;       
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    margin-top: 40%;
+    font-family: Arial, sans-serif;
+    
+}
+
+
+.sidebar-nav ul li {
+    color: white; 
+    margin : 40px;
+    text-align: center;
+}   
+
+.sidebar-nav ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+    padding: 10px ;
+}     
+  
+
+.sidebar-nav ul li a:hover{
+    color: white;
+    transition : all 0.4s;
+    margin: none;
+    font-weight: bold;
+    font-size: 23px;
+    text-decoration: none;
+    padding-left : 10px;
+}
+
+
+.sidebar-nav ul li .Prestataires {
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 50px;
+    padding-top: 50px;
+    border-bottom: 0.15rem solid white;
+    border-top: 0.15rem solid white;
+    
+} 
+
+.sidebar-nav ul li .compte {
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar-nav ul li .planning {
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+
+/* Pied de la barre latérale */
+.sidebar-footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+}
+
+.sidebar-footer a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    font-size: 12px;
+}
+
+.sidebar.collapsed .sidebar-footer {
+    display: none;
+}
+/*fin CSS sidebar*/
