@@ -505,63 +505,51 @@ a:hover {
 # Global Footer
 --------------------------------------------------------------*/
 .footer {
-  color: var(--default-color);
-  background-color: var(--background-color);
-  font-size: 14px;
+  color: var(#72828A);
+  background-color: var(#EFF5FB);
   text-align: center;
-  padding: 30px 0;
-  position: relative;
+  padding-top: 50px 0;
+
 }
 
-.footer h3 {
-  font-size: 36px;
-  font-weight: 700;
-  position: relative;
-  padding: 0;
-  margin: 0 0 15px 0;
+.footer-title {
+    width: 100%;
+    text-align: center;
+    background-color: #EFF5FB; 
+    padding: 20px 0; 
 }
 
-.footer p {
-  font-size: 15;
-  font-style: italic;
-  padding: 0;
-  margin: 0 0 30px 0;
+.footer-title1 {
+    font-size: 50px; 
+    font-weight: bold;
+    color: #72828A; 
+    margin: 0; 
+    padding: 0;
+    text-transform: uppercase;
 }
 
-.footer .social-links {
-  margin: 0 0 30px 0;
+.footer-recontact{
+  background-color: #EFF5FB;
+  padding-left: 30px;
+  padding-top: 30px;
 }
 
-.footer .social-links a {
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--accent-color);
-  color: var(--contrast-color);
-  line-height: 1;
-  margin: 0 4px;
-  border-radius: 50%;
-  text-align: center;
-  width: 36px;
-  height: 36px;
-  transition: 0.3s;
+
+.footer-heading {
+    font-size: 275px; 
+    font-weight: bold;
+    color: #72828A; 
+    margin: 0; 
+    padding: 0;
 }
 
-.footer .social-links a:hover {
-  background: color-mix(in srgb, var(--accent-color), transparent 20%);
-  text-decoration: none;
+.footer-content {
+  background-color: #EFF5FB;
+  padding-left: 30px;
+  padding-top: 30px;
+  color: #72828A;
 }
 
-.footer .copyright {
-  padding-top: 25px;
-  border-top: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
-}
-
-.footer .credits {
-  font-size: 13px;
-  padding-top: 5px;
-}
 
 /*--------------------------------------------------------------
 # Preloader
@@ -1117,6 +1105,33 @@ section,
   background: color-mix(in srgb, var(--accent-color), transparent 25%);
 }
 
+/*--------------------------------------------------------------
+# Recontact Form Section
+--------------------------------------------------------------*/
+.recontact-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recontact-form input[type="email"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.submit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.submit-img {
+  width: 40px; /* Ajustez la taille de l'image selon vos besoins */
+  height: auto;
+}
 
 /*--------------------------------------------------------------
 # Comment Form Section
@@ -1430,21 +1445,17 @@ section,
 }
 
 .testimonial-item h3 {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 15px;
   margin: 10px 0 5px 0;
-  color: #111;
+  color: #999;
+  padding-bottom: 20px;
 }
 
 .testimonial-item h4 {
-  font-size: 14px;
-  color: #999;
+  font-size: 20px;
+  justify-content: center;
+  color: black;
   margin: 0 0 15px 0;
-}
-
-.testimonial-item p {
-  font-style: italic;
-  margin: 0 auto 15px auto;
 }
 
 .testimonials-slider .swiper-button-prev,
