@@ -3,44 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <title>Mon Compte</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>  
-    
-    {% include 'includes/header.html' %}
-    {% include 'includes/aside.html' %}
+    <div class="page">
+        {% include 'includes/header.html' %}
+        <div class="page-content">
+            {% include 'includes/sidebar.html' %}
 
-    <div class="container-compte">
-        <h1>Mon Compte</h1>
-        
-        <!-- Première boîte : Informations utilisateur -->
-        <div class="account-box">
-            <!-- Section informations -->
-            <div class="info-section">
-                <h2>{{ user.nom }} {{ user.prenom }}</h2>
-                <ul>
-                <li><img src="{{ url_for('static', filename='image/profile/telephone.svg')}}" /> Numéro de téléphone : {{ user.telephone }}</li>
-                <li><img src="{{ url_for('static', filename='image/profile/arobase.svg')}}" /> Adresse e-mail : {{ user.email }}</li>
-                <li><img src="{{ url_for('static', filename='image/profile/lettre.svg')}}" /> Adresse Postale : {{ adresse.rue }}, {{ adresse.ville }}, {{ adresse.code_postal }}</li>
-                <li><img src="{{ url_for('static', filename='image/profile/gateau.svg')}}" /> Date de Naissance : {{ user.naissance }}</li>
-                <li><img src="{{ url_for('static', filename='image/profile/user.svg')}}" /> <strong>  {{ user.fonction }}</strong></li>
-                </ul>
-                <span class="edit-profile" id="editProfileBtn">Modifier mon profil</span>
+            <div class="container-compte" >
+                    <h1>Mon Compte</h1>
+                <!-- Première boîte : Informations utilisateur -->
+                <div class="account-box">
+                    <!-- Section informations -->
+                    <div class="info-section">
+                        <h2>{{ user.nom }} {{ user.prenom }}</h2>
+                        <ul>
+                        <li><img src="{{ url_for('static', filename='image/profile/telephone.svg')}}" /> Numéro de téléphone : {{ user.telephone }}</li>
+                        <li><img src="{{ url_for('static', filename='image/profile/arobase.svg')}}" /> Adresse e-mail : {{ user.email }}</li>
+                        <li><img src="{{ url_for('static', filename='image/profile/lettre.svg')}}" /> Adresse Postale : {{ adresse.rue }}, {{ adresse.ville }}, {{ adresse.code_postal }}</li>
+                        <li><img src="{{ url_for('static', filename='image/profile/gateau.svg')}}" /> Date de Naissance : {{ user.naissance }}</li>
+                        <li><img src="{{ url_for('static', filename='image/profile/user.svg')}}" /> <strong>  {{ user.fonction }}</strong></li>
+                        </ul>
+                        <span class="edit-profile" id="editProfileBtn">Modifier mon profil</span>
+                    </div>                        
+                    <!-- Section photo -->
+                    <!-- <div class="photo-section">
+                        <p>Ajouter une photo</p>
+                    </div> -->
+                </div>
+                <!-- Deuxième boîte : Réglages -->
+                <div class="settings-box">
+                    <h2>Mes réglages <img class="rouedenter" src="{{ url_for('static', filename='image/profile/rouedenter.svg')}}"/></h2>
+                    <ul>
+                        <li><a href="#" id="changePasswordLink">Modifier mon mot de passe</a></li>
+                        <li><a href="#" id="changeEmailLink">Modifier mon adresse mail</a></li>
+                    </ul>
+                </div>
             </div>
-            
-            <!-- Section photo -->
-            <!-- <div class="photo-section">
-                <p>Ajouter une photo</p>
-            </div> -->
-        </div>
-
-        <!-- Deuxième boîte : Réglages -->
-        <div class="settings-box">
-            <h2>Mes réglages <img class="rouedenter" src="{{ url_for('static', filename='image/profile/rouedenter.svg')}}"/></h2>
-            <ul>
-                <li><a href="#" id="changePasswordLink">Modifier mon mot de passe</a></li>
-                <li><a href="#" id="changeEmailLink">Modifier mon adresse mail</a></li>
-            </ul>
         </div>
     </div>
 

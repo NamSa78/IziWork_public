@@ -17,16 +17,24 @@
             margin: 0;
             padding: 0;
         }
+        .page {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
         .planning-container {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
             padding: 20px;
         }
 
         h1 {
-            text-align: center;
-            color: #333;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            font-size: 3em;
         }
 
         /* Style des boutons */
@@ -57,53 +65,14 @@
             border: none;
         }
 
-        /* Style du calendrier FullCalendar */
-        #calendar {
-            background-color: rgb(136, 57, 57);
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        /* Personnalisation des couleurs du calendrier */
-        .fc-toolbar {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .fc-button {
-            background-color: #007bff;
-            border: none;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .fc-button:hover {
-            background-color: #0056b3;
-        }
-
-        .fc-daygrid-day {
-            border: 1px solid #ddd;
-        }
-
-        .fc-daygrid-day-number {
-            color: #007bff;
-        }
-
-        .fc-event {
-            background-color: #28a745;
-            border: none;
-            color: white;
-            padding: 5px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .fc-event:hover {
-            background-color: #218838;
+        .fc-header-toolbar {
+        /*
+        the calendar will be butting up against the edges,
+        but let's scoot in the header's buttons
+        */
+        padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
         }
 
         /* Styles pour les fenêtres modales */
@@ -116,17 +85,54 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.25);
+            
         }
 
         .modal-content {
-            background-color: #fefefe;
+            background-color: #b6c0d935;
             margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 300px;
+            width: fit-content;
             border-radius: 5px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+
+        }
+        .date {
+            background-color: #CBE2FC;
+            border-radius: 25px;
+        }
+        .event-card {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .event-section {
+            background-color: #CBE2FC; 
+            padding: 2.5vw; 
+            margin: 10px;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+        }
+        .event-section h3 {
+            font-size: 1.5em;
+            margin: 0;
+            padding: 10px;
+        }
+        .event-section input {
+            width: auto;
+            margin-left: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 2px solid #CBE2FC;
         }
 
         .close {
@@ -141,70 +147,162 @@
         .close:focus {
             color: black;
         }
+        #date-input {
+            width: auto;
+            margin-left: 5px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 2px solid #CBE2FC;
+        }
+        
     </style>
 </head>
 
 <body>
-    {% include 'includes/header.html' %}
-    
-    <main class="planning-container">
-        <h1>Mon planning</h1>
-        <button class="btn btn-secondary" id="goto-date-btn">Aller à une date</button>
-
-        <div id="calendar"></div>
-
-        <div class="actions">
-            <!-- Ajout des ids pour les boutons afin de les cibler dans le script -->
-            <button class="btn btn-primary" id="ajouter-disp-btn">Ajouter disp.</button>
-            <button class="btn btn-secondary" id="ajouter-indisp-btn">Ajouter indisp.</button>
-        </div>
-    </main>
+    <div class="page">
+        {% include 'includes/header.html' %}
+        
+        <main class="planning-container">
+            <h1>Mon planning</h1>
+            <div id="calendar"></div>
+        </main>
+    </div>
 
     <!-- Fenêtre modale pour la sélection de date -->
     <div id="date-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+        <div class="modal-content date">
             <p>Sélectionnez une date :</p>
             <input type="date" id="date-input">
-            <button class="btn btn-primary" id="submit-date-btn">Valider</button>
+            <div style="display: flex; justify-content: end; gap:10px; margin-top: 15px;">
+                <button class="btn btn-secondary" id="cancel-date-btn">Annuler</button>
+                <button class="btn btn-primary" id="submit-date-btn">OK</button>
+            </div>
         </div>
     </div>
 
-    <!-- Fenêtre modale pour "Ajouter disp." -->
-    <div id="disp-modal" class="modal">
+
+    <!-- Popup pour ajouter un événement dans le calendrier -->
+    <div id="event-modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Ajouter Disponibilité</h2>
-            <p>Veuillez saisir les détails de la disponibilité.</p>
-            <!-- Vous pouvez ajouter votre formulaire ici -->
-            <button class="btn btn-primary" id="submit-disp-btn">Valider</button>
+            <div class="event-card">
+                <!-- Section Début -->
+                <div class="event-section">
+                    <h3>Début</h3>
+                    <label for="start-date">Date :</label>
+                    <input type="date" id="start-date">
+                    <label for="start-time">Heure :</label>
+                    <input type="time" id="start-time">
+                </div>
+                <!-- Section Fin -->
+                <div class="event-section">
+                    <h3>Fin</h3>
+                    <label for="end-date">Date :</label>
+                    <input type="date" id="end-date">
+                    <label for="end-time">Heure :</label>
+                    <input type="time" id="end-time">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: end; gap:10px; margin-top: 15px;">
+                <button class="btn btn-secondary" id="cancel-event-btn" onclick="">Annuler</button>
+                <button class="btn btn-primary" id="submit-event-btn" onclick="">OK</button>
+            </div>
         </div>
     </div>
-
-    <!-- Fenêtre modale pour "Ajouter indisp." -->
     <div id="indisp-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Ajouter Indisponibilité</h2>
-            <p>Veuillez saisir les détails de l'indisponibilité.</p>
-            <!-- Vous pouvez ajouter votre formulaire ici -->
-            <button class="btn btn-primary" id="submit-indisp-btn">Valider</button>
+        <div class="modal-content indisp-modal-cotent">
+            <div class="event-card">
+                <!-- Section Début -->
+                <div class="event-section">
+                    <h3>Début</h3>
+                    <label for="start-date">Date :</label>
+                    <input type="date" id="start-date">
+                    <label for="start-time">Heure :</label>
+                    <input type="time" id="start-time">
+                </div>
+                <!-- Section Fin -->
+                <div class="event-section">
+                    <h3>Fin</h3>
+                    <label for="end-date">Date :</label>
+                    <input type="date" id="end-date">
+                    <label for="end-time">Heure :</label>
+                    <input type="time" id="end-time">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: end; gap:10px; margin-top: 15px;">
+                <button class="btn btn-secondary" id="cancel-indisp-event-btn">Annuler</button>
+                <button class="btn btn-primary" id="submit-event-btn" onclick="">OK</button>
+            </div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Configuration du calendrier FullCalendar
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+                // Gestion de la fermeture des popups avec boutons annulez
+                document.getElementById('cancel-indisp-event-btn').onclick = function() {
+                    document.getElementById('indisp-modal').style.display = 'none';
+                };
+                document.getElementById('cancel-event-btn').onclick = function() {
+                    document.getElementById('event-modal').style.display = 'none';
+                };
+                document.getElementById('cancel-date-btn').onclick = function() {
+                    document.getElementById('date-modal').style.display = 'none';
+                };
+
+            // Initialisation du calendrier
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
+                initialView: 'dayGridMonth', // ou timeGridWeek
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'customButton',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                }
+                    right: 'prev,next,timeGridWeek,dayGridMonth'
+                },
+                footerToolbar: {
+                    left: 'ajouterdispbtn',
+                    center: '',
+                    right: 'ajouterindispbtn'
+                },
+                buttonText: {
+                    today: 'Aujourd\'hui',
+                    month: 'Mois',
+                    week: 'Semaine'
+                },
+                customButtons: {
+                    customButton: {
+                        text: 'Mon Planning',
+                        click: function() {
+                            document.getElementById('date-modal').style.display = 'block';
+                        }
+                    },
+                    ajouterdispbtn: {
+                        text: 'Ajouter disp.',
+                        click: function() {
+                            document.getElementById('event-modal').style.display = 'block';
+                        }
+                    },
+                    ajouterindispbtn: {
+                        text: 'Ajouter indisp.',
+                        click: function() {
+                            document.getElementById('indisp-modal').style.display = 'block';
+                        },
+                        className: 'btn-red' // Ajout de la classe pour la couleur rouge
+                    }
+                },
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                expandRows: true,
+                dayMaxEvents: true,
+                slotMinTime: "00:00:00",
+                slotMaxTime: "24:00:00",
+                allDaySlot: false
             });
             calendar.render();
+            calendar.setOption('height', window.innerHeight - 120);
+            calendar.setOption('contentHeight', window.innerHeight - 120);
+
+            // Le reste de votre gestion des modales et interactions...
 
             // Gestion de la fenêtre modale pour la date
             var dateModal = document.getElementById('date-modal');
@@ -226,47 +324,61 @@
                 }
             };
 
-            // Gestion des fenêtres modales pour "Ajouter disp." et "Ajouter indisp."
-            var dispModal = document.getElementById('disp-modal');
-            var indispModal = document.getElementById('indisp-modal');
-            var ajouterDispBtn = document.getElementById('ajouter-disp-btn');
-            var ajouterIndispBtn = document.getElementById('ajouter-indisp-btn');
-
-            ajouterDispBtn.onclick = function() {
-                dispModal.style.display = 'block';
+            // Popup : ajout d'un événement
+            document.getElementById('submit-event-btn').onclick = function() {
+                // Récupération des valeurs
+                var startDate = document.getElementById('start-date').value;
+                var startTime = document.getElementById('start-time').value;
+                var endDate = document.getElementById('end-date').value;
+                var endTime = document.getElementById('end-time').value;
+                
+                // Contrôle que tous les champs sont renseignés
+                if (!startDate || !startTime || !endDate || !endTime) {
+                    alert("Veuillez renseigner toutes les informations.");
+                    return;
+                }
+                
+                // Construction des objets Date pour comparaison
+                var startDateTime = new Date(startDate + 'T' + startTime);
+                var endDateTime = new Date(endDate + 'T' + endTime);
+                
+                if (endDateTime <= startDateTime) {
+                    alert("La date/heure de fin doit être postérieure à celle de début.");
+                    return;
+                }
+                
+                // Création d'un dictionnaire pour l'événement
+                var newEvent = {
+                    start: startDateTime.toISOString(),
+                    end: endDateTime.toISOString()
+                };
+                
+                // Ici vous pouvez ajouter l'événement au calendrier ou l'utiliser 
+                // par la suite, par exemple :
+                console.log("Nouvel événement :", newEvent);
+                alert("Événement ajouté !");
+                
+                // Ferme la popup
+                document.getElementById('event-modal').style.display = 'none';
             };
 
-            ajouterIndispBtn.onclick = function() {
-                indispModal.style.display = 'block';
+            // Gestion du bouton "Annuler" pour l'événement
+            document.getElementById('cancel-event-btn').onclick = function() {
+                document.getElementById('event-modal').style.display = 'none';
             };
 
-            // Gestion des boutons de fermeture pour tous les modals
+            // Gestion de la fermeture des popups avec la croix
             var closeButtons = document.querySelectorAll('.modal .close');
             closeButtons.forEach(function(btn) {
                 btn.onclick = function() {
-                    btn.parentElement.parentElement.style.display = 'none';
+                    // Utilisation de closest pour récupérer l'élément modal le plus proche
+                    var modal = btn.closest('.modal');
+                    if (modal) {
+                        modal.style.display = 'none';
+                    }
                 };
             });
-
-            // Fermeture des modales si on clique en dehors
-            window.onclick = function(event) {
-                if (event.target.classList.contains('modal')) {
-                    event.target.style.display = 'none';
-                }
-            };
-
-            // Vous pouvez ajouter ici des actions pour "submit-disp-btn" et "submit-indisp-btn"
-            document.getElementById('submit-disp-btn').onclick = function() {
-                // Traitement pour la disponibilité
-                alert('Disponibilité validée.');
-                dispModal.style.display = 'none';
-            };
-
-            document.getElementById('submit-indisp-btn').onclick = function() {
-                // Traitement pour l\'indisponibilité
-                alert('Indisponibilité validée.');
-                indispModal.style.display = 'none';
-            };
+            
         });
     </script>
 </body>

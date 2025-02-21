@@ -3,18 +3,20 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    display: flex;
-    height: 100vh;
     background-color: #EFF5FB;
+}
+.page {
+    display: flex;
+    flex-direction: column;
+}
+.page-content {
+    display: flex;
+
 }
 
 /* Barre de navigation supérieure */
 .top-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
+    height: 6vh;
     background: linear-gradient(-90deg, #0A1931 0%, #142849 100%);
     color: white;
     display: flex;
@@ -55,7 +57,6 @@ body {
     color: white;
     border: 2px solid white;
     padding: 8px 15px;
-    margin-right: 50px;
     cursor: pointer;
     transition: 0.3s;
 }
@@ -98,7 +99,7 @@ body {
 }
 
 .form-container h1 {
-    font-size: 24px;
+    font-size: 3em;
     font-weight: bold;
 }
 
@@ -373,13 +374,16 @@ tbody tr:last-child td {
   .container-compte {
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 70%;
     margin: auto;
+    height: 94vh;
+    justify-content: center;
   }
 
   .container-compte h1 {
     text-align: left;
-    margin-bottom: 30px;
+    margin-bottom: 2vh;
+    font-size: 5vh;
   }
 
   /* Bloc principal (informations utilisateur) */
@@ -389,8 +393,8 @@ tbody tr:last-child td {
     background-color: #d9ebff; /* Couleur de fond proche du bleu clair */
     border-radius: 8px;
     border: 2px solid black;
-    padding: 20px;
-    margin-bottom: 20px;
+    padding: 2vh;
+    margin-bottom: 2vh;
   }
 
   /* Partie gauche : infos texte */
@@ -407,9 +411,12 @@ tbody tr:last-child td {
     margin: 0;
   }
   .account-box .info-section ul li {
+    display: flex;
+    align-items: center;
     margin-bottom: 8px;
-    font-weight: 500;
+    padding: 2px;
   }
+  
   .account-box .edit-profile {
     display: inline-block;
     margin-top: 15px;
@@ -470,69 +477,48 @@ tbody tr:last-child td {
     margin-top: 20px;
   }
 
-
-  /* sidebar CSS */
-  
-
-/* Barre latérale */
+/* Sidebar de base */
 .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 260px;
-    height: 100%;
-    background: linear-gradient(0deg, #0A1931 0%, #142849 100%);
+    width: 25px; /* État réduit par défaut */
+    height: 94vh;
+    background: linear-gradient(0deg, #000000 0%, #142849 100%);
     color: white;
     display: flex;
     flex-direction: column;
     transition: width 0.3s ease-in-out;
-    z-index: 1000;
-    justify-content: center; /* Centre verticalement le contenu de la barre latérale */
+    z-index: 999;
 }
 
-/* Barre latérale rétractée */
-.sidebar.collapsed {
-    width: 25px;
-}
-
-.sidebar.collapsed .sidebar-nav ul li a {
-    display: none;
-}   
-
-
-
-/* Bouton pour rétracter la barre latérale */
-.sidebar-header {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 0;
-    z-index: 1001;
-    display: flex;
-    justify-content: center;
-}
-
-.toggle-btn {
-    cursor: pointer;
-    color: white;
-    background: #11223e;
-    border: none;
-    z-index: 1001;
-    padding: 10px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-radius: 10px;
-    margin-left: 150%;
-
-}
-
-/* Navigation dans la barre latérale */
-.sidebar-nav {
+/* Pour que le contenu interne prenne toute la largeur disponible */
+.sidebar-container-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Bouton de bascule */
+.toggle-btn {
+    position: absolute;
+    right: -30px;
+    background: #142849 ;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.toggle-btn:hover {
+    background: #2c3e50;
+}
+
+/* Navigation */
+.sidebar-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
-    flex-grow: 1;       
 }
 
 .sidebar-nav ul {
@@ -540,61 +526,22 @@ tbody tr:last-child td {
     padding: 0;
     margin: 0;
     width: 100%;
-    margin-top: 40%;
     font-family: Arial, sans-serif;
-    
 }
 
-
 .sidebar-nav ul li {
-    color: white; 
-    margin : 40px;
     text-align: center;
-}   
+    padding: 30px 0;
+}
 
 .sidebar-nav ul li a {
     color: white;
     text-decoration: none;
-    display: block;
-    font-size: 20px;
-    padding: 10px ;
-}     
-  
-
-.sidebar-nav ul li a:hover{
-    color: white;
-    transition : all 0.4s;
-    margin: none;
-    font-weight: bold;
-    font-size: 23px;
-    text-decoration: none;
-    padding-left : 10px;
+    font-size: 1.5em;
+    display:block;
 }
 
-
-.sidebar-nav ul li .Prestataires {
-    width: 100%;
-    justify-content: center;
-    padding-bottom: 50px;
-    padding-top: 50px;
-    border-bottom: 0.15rem solid white;
-    border-top: 0.15rem solid white;
-    
-} 
-
-.sidebar-nav ul li .compte {
-    justify-content: center;
-    width: 100%;
-}
-
-.sidebar-nav ul li .planning {
-    justify-content: center;
-    width: 100%;
-    padding-bottom: 20px;
-}
-
-
-/* Pied de la barre latérale */
+/* Pied de la sidebar */
 .sidebar-footer {
     margin-top: auto;
     padding: 20px;
@@ -609,8 +556,12 @@ tbody tr:last-child td {
     display: block;
     font-size: 12px;
 }
-
-.sidebar.collapsed .sidebar-footer {
-    display: none;
+.sidebar-nav ul li.Prestataires {
+    display: flex;
+    border-top: 3px solid #fff;    /* Bordure en haut ; ajustez la couleur si nécessaire */
+    border-bottom: 3px solid #fff; /* Bordure en bas */           /* Pour espacer le contenu de la bordure */
+    width: 80%;
+    text-align: center;
+    margin: 0 auto;
+    justify-content: center;
 }
-/*fin CSS sidebar*/
