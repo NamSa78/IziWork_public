@@ -45,4 +45,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Initialisation de l'état (sidebar rétractée avec texte masqué)
     hideSidebar();
+
+    const alerts = document.querySelectorAll('.alert');
+        
+    alerts.forEach(alert => {
+        // Auto-fermeture après 5 secondes
+        const timer = setTimeout(() => {
+            alert.classList.add('closing');
+            setTimeout(() => alert.remove(), 300); // Correspond à la durée de l'animation
+        }, 3000);
+
+        // Fermeture manuelle
+        alert.querySelector('.close').addEventListener('click', () => {
+            clearTimeout(timer); // Annule l'auto-fermeture
+            alert.classList.add('closing');
+            setTimeout(() => alert.remove(), 300);
+        });
+    });
 });

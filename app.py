@@ -353,15 +353,17 @@ def forgotPassword():
         from werkzeug.security import generate_password_hash
 
         # Récupération des valeurs du formulaire
-        old_password = request.form.get('old-password')
-        new_password = request.form.get('new-password')
-        confirm_password = request.form.get('confirm-password')
+        old_password = request.form.get('old_password')
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
         
         # Vérification des champs obligatoires
         if not new_password:
-            return "Tous les champs obligatoires ne sont pas remplis", 400
+            flash("Tous les champs obligatoires ne sont pas remplis", "error")
+            return render_template('modify/password.html'), 400
         if new_password != confirm_password:
-            return "Les mots de passe ne correspondent pas", 400
+            flash("Les mots de passe ne correspondent pas", "error")
+            return render_template('modify/password.html'), 400
         
         # Hash du mot de passe
         hashed_password = generate_password_hash(new_password)
@@ -371,7 +373,8 @@ def forgotPassword():
         user.password = hashed_password
         db.session.commit()
         
-        return "Mot de passe modifié", 201
+        flash("Mot de passe modifié", "success")
+        return render_template('modify/password.html'), 201
         
     
     return render_template('modify/password.html')

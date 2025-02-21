@@ -2,7 +2,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background-color: #EFF5FB;
 }
 .page {
@@ -125,6 +125,7 @@ label {
     display: block;
     font-weight: bold;
     margin: 5px;
+    font-size: x-large;
 }
 
 input,
@@ -190,12 +191,6 @@ select {
     border-radius: 5px;
 }
 
-/* liste_prestataires */
-.container {
-    margin: auto;
-    background: white;
-    padding: 20px;
-}
 /* HEADER */
 .header {
     display: flex;
@@ -416,7 +411,10 @@ tbody tr:last-child td {
     margin-bottom: 8px;
     padding: 2px;
   }
-  
+  .account-box .info-section ul li img {
+    padding-right: 5px;
+  }
+
   .account-box .edit-profile {
     display: inline-block;
     margin-top: 15px;
@@ -472,10 +470,97 @@ tbody tr:last-child td {
   }
 
   /* modify/password */
-  .form-modify-password {
-    display: none;
-    margin-top: 20px;
+  #form-modify input {
+    background-color: #EFF5FB;
+    margin-right: auto;
+    width:40%;
   }
+  .container form {
+    display: flex;
+    flex-direction: column;
+  }
+  .container button {
+    margin: 30px auto 0px 0px;
+    padding: 20px 40px;
+    font-size: 2vh;
+    border: none;
+    background-color: #142849;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .container button:hover {
+    background-color: #0A1931;
+  }
+/* Style des messages flash */
+.alert {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: 100%;
+    max-width: 600px;
+    padding: 15px 25px;
+    margin: 0;
+    border-radius: 0 0 4px 4px;
+    font-size: 16px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    animation: slideDown 0.3s ease-out;
+}
+/* Nouvelle animation de fermeture */
+.alert.closing {
+    animation: slideUp 0.3s ease-in forwards;
+}
+    /* Couleurs selon les catégories */
+    .alert-error {
+        background: #ffebee;
+        color: #c62828;
+        border-bottom: 2px solid #ffcdd2;
+    }
+
+    .alert-success {
+        background: #e8f5e9;
+        color: #2e7d32;
+        border-bottom: 2px solid #c8e6c9;
+    }
+
+    /* Animation d'apparition */
+    @keyframes slideDown {
+        from {
+            transform: translate(-50%, -100%);
+        }
+        to {
+            transform: translate(-50%, 0);
+        }
+    }
+    @keyframes slideUp {
+        from {
+            transform: translate(-50%, 0);
+        }
+        to {
+            transform: translate(-50%, -100%);
+        }
+    }
+    
+
+    /* Bouton de fermeture */
+    .alert .close {
+        cursor: pointer;
+        margin-left: 20px;
+        font-weight: bold;
+        font-size: 20px;
+        opacity: 0.7;
+    }
+
+    .alert .close:hover {
+        opacity: 1;
+    }
+
 
 /* Sidebar de base */
 .sidebar {
