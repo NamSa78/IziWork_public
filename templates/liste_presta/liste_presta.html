@@ -6,53 +6,61 @@
     <title>Liste des Prestataires</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script defer src="{{ url_for('static', filename='js/presta_liste/script.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>
+    <div class="page">
+        {% include 'includes/header.html' %}
+        <div class="page-content">
+            {% include 'includes/sidebar.html' %}
+            <!-- Contenu principal -->
+            <div class="container">
+                <div class="header">
+                    <div class="title">
+                        <h1>Liste des prestataires</h1>
+                    </div>
+                    <div class="add-presta">
+                        <a href="{{ url_for('presta') }}" class="add-btn">Ajouter un prestataire <img src="{{ url_for('static', filename='image/add_presta.svg') }}"/></a>  
+                    </div>
+                </div>
 
-    {% include 'includes/header.html' %}
-    {% include 'includes/aside.html' %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom du prestataire</th>
+                            <th>Actions</th>
+                            <th>Fonction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.nom }} {{ user.prenom }}</td>
+                            
+                            <td class="actions-cell">
+                                <button class="action-btn">⋮</button>
+                                <div class="dropdown">
+                                    <button class="modify-btn" onclick="modifier('{{ user.id }}')">Modifier</button>
+                                    <button class="delete-btn" onclick="supprimer('{{user.id}}', '{{user.nom}}', '{{user.prenom}}')">Supprimer</button>
+                                </div>
+                            </td>
 
-    <div class="container">
-        <div class="header">
-            <h2>Liste des prestataires</h2>
-            <a href="{{ url_for('presta') }}" class="add-btn">Ajouter un prestataire <img src="{{ url_for('static', filename='image/add_presta.svg') }}"/></a>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Nom du prestataire</th>
-                    <th>Actions</th>
-                    <th>Fonction</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.nom }} {{ user.prenom }}</td>
-                    
-                    <td class="actions-cell">
-                        <button class="action-btn">⋮</button>
-                        <div class="dropdown">
-                            <button class="modify-btn" onclick="modifier('{{ user.id }}')">Modifier</button>
-                            <button class="delete-btn" onclick="supprimer('{{user.id}}', '{{user.nom}}', '{{user.prenom}}')">Supprimer</button>
-                        </div>
-                    </td>
-
-                    <td>{{ user.fonction }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        </div>
-    </div>
-    <!-- Modal de confirmation de suppression -->
-    <div id="confirmModal" class="modal">
-        <div class="modal-content">
-            <p id="modalText">Suppression de l'utilisateur sélectionné</p>
-            <div class="modal-buttons">
-                <button onclick="confirmDelete()">Confirmez</button>
-                <button onclick="closeModal()">Annuler</button>
+                            <td>{{ user.fonction }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
+            <!-- Modal de confirmation de suppression -->
+            <div id="confirmModal" class="modal">
+                <div class="modal-content">
+                    <p id="modalText">Suppression de l'utilisateur sélectionné</p>
+                    <div class="modal-buttons">
+                        <button onclick="confirmDelete()">Confirmez</button>
+                        <button onclick="closeModal()">Annuler</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

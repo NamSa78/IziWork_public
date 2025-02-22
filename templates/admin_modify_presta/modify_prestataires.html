@@ -40,12 +40,12 @@
         <section class="form-container">
             <h1>Informations</h1>
             <form method="post" action="/admin/modify/prestataires" class="form">
-                <div class="form-nom">
+                <div class="form-group">
                     <label for="nom">Nom</label>
                     <input type="text" id="nom" name="nom" required value="{{ form_data.get('nom', '') }}">
                 </div>
 
-                <div class="form-prenom">
+                <div class="form-group">
                     <label for="prenom">Prénom</label>
                     <input type="text" id="prenom" name="prenom" required value="{{ form_data.get('prenom', '') }}">
                 </div>
