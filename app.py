@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template, redirect, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from sqlalchemy import select
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, current_user
 
 app = Flask(__name__)
@@ -91,7 +92,7 @@ def ajout_hotel():
 # Fonction pour charger un utilisateur
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 # Route de connexion
 @app.route('/login', methods=['GET', 'POST'])
@@ -100,7 +101,7 @@ def login():
         # Pour la connexion via formulaire (cf. templates/login/connexion.html)
         email = request.form.get('email')  # Assurez-vous que le champ HTML s'appelle 'email'
         password = request.form.get('password')
-        user = User.query.filter_by(email=email).first()
+        user = db.session.scalars(select(User).where(User.email == email)).first()
         
         if user and check_password_hash(user.password, password):
             login_user(user)
@@ -121,7 +122,7 @@ def logout():
 @app.route('/users', methods=['GET'])
 @login_required
 def get_all_users():
-    users = User.query.all()
+    users = db.session.scalars(select(User)).all()
     result = []
     for user in users:
         result.append({
@@ -137,7 +138,7 @@ def get_all_users():
     return jsonify(result)
 
 
-@app.route('/admin/modify/prestataires', methods=['GET','MODIFY'])
+@app.route('/admin/modify/prestataires', methods=['GET','PUT'])
 @login_required
 def modifier():
     if request.method == 'GET':
@@ -145,7 +146,7 @@ def modifier():
         if not user_id:
             flash("Aucun utilisateur spécifié", "error")
             return redirect(url_for('compte'))
-        user = User.query.get(user_id)
+        user = db.session.get(User, user_id)
         if not user:
             flash("Utilisateur non trouvé", "error")
             return redirect(url_for('compte'))
@@ -161,7 +162,9 @@ def modifier():
             'date-ajout': user.naissance.strftime("%Y-%m-%d") if user.naissance else ""
         }
         # Si l'utilisateur possède une adresse associée, on l'ajoute aux données
-        adresse = AdressePostale.query.filter_by(user_id=user.id).first()
+        adresse = db.session.scalars(
+        select(AdressePostale).where(AdressePostale.user_id == user.id)
+    ).first()
         if adresse:
             form_data.update({
                 'street': adresse.rue,
@@ -171,7 +174,7 @@ def modifier():
         
         return render_template('admin_modify_presta/modify_prestataires.html', form_data=form_data)
 
-    elif request.method == 'MODIFY':
+    elif request.method == 'PUT':
         from werkzeug.security import generate_password_hash
 
         # Récupération des valeurs du formulaire pour modification
@@ -197,7 +200,9 @@ def modifier():
             return render_template('compte/compte.html', form_data=request.form), 400
 
         # Vérification du conflit d'email (si l'email a été modifié)
-        existing_user = User.query.filter_by(email=email).first()
+        existing_user = db.session.scalars(
+            select(User).where(User.email == email)
+                                            ).first()
         if existing_user:
             flash("Un utilisateur avec cet email existe déjà", "error")
             return render_template('compte/compte.html', form_data=request.form), 400
@@ -212,13 +217,15 @@ def modifier():
 @login_required
 def compte():
     user = current_user
-    adresse = AdressePostale.query.filter_by(user_id=user.id).first()
+    adresse = db.session.scalars(
+        select(AdressePostale).where(AdressePostale.user_id == user.id)
+    ).first()
     
     return render_template('compte/compte.html', user=user, adresse=adresse)
 
 @app.route('/api/test')
 def test_api():
-    return jsonify(User.query.all())
+    return jsonify(db.session.scalars(select(User)).all())
 
 @app.route('/admin/ajout/prestataires', methods=['GET', 'POST'])
 @login_required
@@ -249,7 +256,9 @@ def presta():
             return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data=request.form), 400
 
         # Vérification du conflit d'email
-        existing_user = User.query.filter_by(email=email).first()
+        existing_user = db.session.scalars(
+            select(User).where(User.email == email)
+        ).first()
         if existing_user:
             flash("Un utilisateur avec cet email existe déjà", "error")
             return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data=request.form), 400
@@ -293,7 +302,7 @@ def presta():
             db.session.commit()
         
         flash("Utilisateur ajouté", "success")
-        users = User.query.all()
+        users = db.session.scalars(select(User)).all()
         return render_template('liste_presta/liste_presta.html', users=users), 201
 
     # Pour le GET, on peut envoyer un dictionnaire vide
@@ -308,12 +317,14 @@ def prestataires():
         if not user_id:
             return jsonify({"error": "ID manquant"}), 400
         
-        user_to_delete = User.query.get(user_id)
+        user_to_delete = db.session.get(User,user_id)
         if not user_to_delete:
             return jsonify({"error": "Utilisateur non trouvé"}), 404
 
         # Supprimer l'adresse liée
-        adresse = AdressePostale.query.filter_by(user_id=user_id).first()
+        adresse = db.session.scalars(
+            select(AdressePostale).where(AdressePostale.user_id == user_id)
+        ).first()
         if adresse:
             db.session.delete(adresse)
         
@@ -338,7 +349,7 @@ def prestataires():
         return jsonify({"message": "Utilisateur et toutes ses relations supprimés"}), 200
 
     # Méthode GET : afficher la liste des prestataires
-    users = User.query.all()  # Récupération des utilisateurs depuis la base de données
+    users = db.session.scalars(select(User)).all()  # Récupération des utilisateurs depuis la base de données
     return render_template('liste_presta/liste_presta.html', users=users)
 
 # @app.route('/compte')

@@ -11,112 +11,96 @@
 
 <body>
 
-    {% include 'includes/header.html' %}
-    {% include 'includes/aside.html' %}
+    <div class="page">
+        {% include 'includes/header.html' %}
+        <div class="page-content">
+            {% include 'includes/sidebar.html' %}
+            <!-- Contenu principal -->
+            <main class="container">
+                <h1>Modifier un prestataire</h1>
+                <section class="form-container">
+                    <h1>Informations</h1>
+                    <form method="post" action="/admin/ajout/prestataires" class="form">
+                        <div class="form-placement">
+                            <div class="form-group">
+                                <label for="nom">Nom</label>
+                                <input type="text" id="nom" name="nom" required value="{{ form_data.get('nom', '') }}">
+                            </div>
 
-    <!-- Barre latérale rétractable -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <button class="toggle-btn"><img src="{{ url_for('static', filename='image/flèche.svg') }}" alt="Dropdown Icon" width="16" height="16"></button>
-            <!-- Flèche pour rétracter -->
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a class="Planning" href="#">PLANNING</a></li>
-                <li><a class="Prestataires" href="#">PRESTATAIRES</a></li>
-                <li><a class="Compte" href="#">COMPTE</a></li>
-            </ul>
-        </nav>
-        <div class="sidebar-footer">
-            <img src="{{ url_for('static', filename='image/bonhomme.svg') }}" alt="Bonhomme Icon" width="30" height="30">
-            <a href="#">UTILISATEUR</a>
-        </div>
-    </aside>
+                            <div class="form-group">
+                                <label for="prenom">Prénom</label>
+                                <input type="text" id="prenom" name="prenom" required value="{{ form_data.get('prenom', '') }}">
+                            </div>
+                        </div>
+                        <div class="form-placement">
+                            <div class="form-group">
+                                <label for="email">Adresse mail</label>
+                                <input type="email" id="email" name="email" class="email" required value="{{ form_data.get('email', '') }}">
+                            </div>
 
-
-    <!-- Contenu principal -->
-    <main class="main-content">
-        <h2>Modifier un prestataire</h2>
-        <section class="form-container">
-            <h1>Informations</h1>
-            <form method="post" action="/admin/modify/prestataires" class="form">
-                <div class="form-group">
-                    <label for="nom">Nom</label>
-                    <input type="text" id="nom" name="nom" required value="{{ form_data.get('nom', '') }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" name="prenom" required value="{{ form_data.get('prenom', '') }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Adresse mail</label>
-                    <input type="email" id="email" name="email" required value="{{ form_data.get('email', '') }}">
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Numéro de téléphone</label>
-                    <input type="tel" id="phone" name="phone" required value="{{ form_data.get('phone', '') }}">
-                </div>
-                <div class="adressePostal">
-                    <p>Adresse postale</p>
-                
-                    <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Numéro de téléphone</label>
+                                <input type="tel" id="phone" name="phone" required value="{{ form_data.get('phone', '') }}">
+                            </div>
+                        </div>
+                        <div class="adressePostal">
+                            <h2>Adresse postale</h2>
                         
-                        <div class="form-group">
-                            <label for="street">Rue</label>
-                            <input type="text" id="street" name="street" value="{{ form_data.get('street', '') }}">
+                            <div class="form-placement form-row">
+                                
+                                <div class="form-group">
+                                    <label for="street">Rue</label>
+                                    <input type="text" id="street" name="street" value="{{ form_data.get('street', '') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="postal-code">Code postale</label>
+                                    <input type="text" id="postal-code" name="postal-code" value="{{ form_data.get('postal-code', '') }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city">Ville</label>
+                                    <input type="text" id="city" name="city" value="{{ form_data.get('city', '') }}">
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="postal-code">Code postale</label>
-                            <input type="text" id="postal-code" name="postal-code" value="{{ form_data.get('postal-code', '') }}">
+                        <div class="form-placement form-row">
+                            <div class="form-group">
+                                <label for="fonction">Fonction</label>
+                                <select id="fonction" name="fonction">
+                                    <option value=""></option>
+                                    <option value="reception" {% if form_data.get('fonction') == 'reception' %}selected{% endif %}>Réceptionniste</option>
+                                    <option value="service" {% if form_data.get('fonction') == 'service' %}selected{% endif %}>Serveur</option>
+                                    <option value="chef" {% if form_data.get('fonction') == 'chef' %}selected{% endif %}>Chef de cuisine</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date-ajout">Date de naissance</label>
+                                <input type="date" id="date-ajout" name="date-ajout" value="{{ form_data.get('date-ajout', '') }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="siret">SIRET</label>
+                                <input type="text" id="siret" name="siret" value="{{ form_data.get('siret', '') }}">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="city">Ville</label>
-                            <input type="text" id="city" name="city" value="{{ form_data.get('city', '') }}">
+                        <div class="form-group password-section">
+                            <label for="new-password">Mot de passe</label>
+                                <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe" required>
+                                <input type="password" id="confirm-password" name="confirm-password"
+                                    placeholder="Confirmer mot de passe" required>
                         </div>
-                    </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fonction">Fonction</label>
-                        <select id="fonction" name="fonction" >
-                            <option value=""></option>
-                            <option value="reception" {% if form_data.get('fonction') == 'reception' %}selected{% endif %}>Réceptionniste</option>
-                            <option value="service" {% if form_data.get('fonction') == 'service' %}selected{% endif %}>Serveur</option>
-                            <option value="chef" {% if form_data.get('fonction') == 'chef' %}selected{% endif %}>Chef de cuisine</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="date-ajout">Date de naissance du prestataire</label>
-                        <input type="date" id="date-ajout" name="date-ajout" value="{{ form_data.get('date-ajout', '') }}">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="siret">SIRET</label>
-                        <input type="text" id="siret" name="siret" value="{{ form_data.get('siret', '') }}">
-                    </div>
-                </div>
-
-                <div class="form-group password-section">
-                    <label for="new-password">Mot de passe</label>
-                        <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe" required>
-                        <input type="password" id="confirm-password" name="confirm-password"
-                            placeholder="Confirmer mot de passe" required>
-                </div>
-
-                <div class="form-buttons">
-                    <button type="submit" class="save-btn">Enregistrer</button>
-                </div>
-            </form>
-        </section>
-        <!-- Autres contenus éventuels -->
-    </main>
+                        <div class="form-buttons">
+                            <button type="submit" class="save-btn">Enregistrer</button>
+                        </div>
+                    </form>
+                </section>
+                <!-- Autres contenus éventuels -->
+            </main>
     
     <!-- Par exemple, insérez ce bloc juste avant la fermeture de la balise </body> -->
     {% with messages = get_flashed_messages(with_categories=true) %}

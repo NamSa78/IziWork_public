@@ -273,6 +273,7 @@ tbody tr:last-child td {
     min-width: 120px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    z-index: 100;
 }
 
 .container .dropdown button {
@@ -291,7 +292,7 @@ tbody tr:last-child td {
 }
 
 /* Affichage du menu au clic */
-.actions-cell:hover .dropdown {
+.action-btn:hover .dropdown {
     display: block;
 }
 
