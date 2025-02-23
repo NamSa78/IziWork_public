@@ -12,8 +12,8 @@
     <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
     
     <style>
-       /* Style général de la page */
-       body {
+        /* Style général de la page */
+        body {
             font-family: 'Inter', Arial;
             background-color: #EFF5FB;
             margin: 0;
@@ -213,8 +213,11 @@
             font-size: 1.2em;
             margin: 5px 0;
         }
-        .fc-col-header-cell-cushion {
+        .fc-dayGridMonth-view .fc-col-header-cell-cushion {
             font-size: small;
+        }
+        .fc-col-header-cell-cushion {
+            font-size:30%;
         }
     }
     /* Couleurs personnalisées */
@@ -293,12 +296,66 @@
             {% include 'includes/sidebar.html' %}
         
             <main class="container planning-container">
-                <h1>Mon planning</h1>
+                <div class="title-planning">
+                    <h1>Planning</h1>
+                    <select id="prestataire-select">
+                        <option value="">Tous les prestataires</option>
+                        {% for p in prestataires %}
+                        <option value="{{ p.id }}">{{ p.nom }} {{ p.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 <div id="calendar"></div>
             </main>
         </div>
     </div>
 
+    <div id="popupContainer" class="modal">
+        <div class="modal-content">
+            <div class="event-card">
+                <!-- Section Hôtel -->
+                <div class="event-section">
+                    <h3>Hôtel</h3>
+                    <label>Nom de l’établissement</label>
+                    <input type="text" id="hotel-name" placeholder="Nom de l’établissement">
+                    
+                    <label>Adresse de l’établissement</label>
+                    <input type="text" id="hotel-address" placeholder="Adresse de l’établissement">
+                </div>
+    
+                <!-- Section Prestataire -->
+                <div class="event-section">
+                    <h3>Prestataire</h3>
+                    <label>Prestataire</label>
+                    <select id="prestataire-select-shift">
+                        {% for p in prestataires %}
+                        <option value="{{ p.id }}">{{ p.nom }} {{ p.prenom }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <label>Fonction</label>
+                    <input type="text" id="fonction" placeholder="Fonction">
+    
+                    <label>Date de début</label>
+                    <input type="date" id="shift-start-date">
+    
+                    <label>Heure de début</label>
+                    <input type="time" id="shift-start-time">
+    
+                    <label>Date de fin</label>
+                    <input type="date" id="shift-end-date">
+    
+                    <label>Heure de fin</label>
+                    <input type="time" id="shift-end-time">
+                </div>
+            </div>
+            <div style="display: flex; justify-content: end; gap:10px;">
+                <button class="btn btn-secondary" id="cancel-event-btn">Annuler</button>
+                <button class="btn btn-primary" id="submit-shift-btn">Affecter</button>
+            </div>
+        </div>
+    </div>
     <!-- Fenêtre modale pour la sélection de date -->
     <div id="date-modal" class="modal">
         <div class="modal-content date">
@@ -310,72 +367,15 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Popup pour ajouter un événement dans le calendrier -->
-    <div id="event-modal" class="modal">
-        <div class="modal-content">
-            <div class="event-card">
-                <!-- Section Début -->
-                <div class="event-section">
-                    <h3>Début</h3>
-                    <label for="start-date">Date :</label>
-                    <input type="date" id="start-date">
-                    <label for="start-time">Heure :</label>
-                    <input type="time" id="start-time">
-                </div>
-                <!-- Section Fin -->
-                <div class="event-section">
-                    <h3>Fin</h3>
-                    <label for="end-date">Date :</label>
-                    <input type="date" id="end-date">
-                    <label for="end-time">Heure :</label>
-                    <input type="time" id="end-time">
-                </div>
-            </div>
-            <div style="display: flex; justify-content: end; gap:10px; margin-top: 15px;">
-                <button class="btn btn-secondary" id="cancel-event-btn" onclick="">Annuler</button>
-                <button class="btn btn-primary" id="submit-event-btn" onclick="">OK</button>
-            </div>
-        </div>
-    </div>
-    <div id="indisp-modal" class="modal">
-        <div class="modal-content">
-            <div class="event-card">
-                <div class="event-section">
-                    <h3>Début</h3>
-                    <label for="indisp-start-date">Date :</label>
-                    <input type="date" id="indisp-start-date">
-                    <label for="indisp-start-time">Heure :</label>
-                    <input type="time" id="indisp-start-time">
-                </div>
-                <div class="event-section">
-                    <h3>Fin</h3>
-                    <label for="indisp-end-date">Date :</label>
-                    <input type="date" id="indisp-end-date">
-                    <label for="indisp-end-time">Heure :</label>
-                    <input type="time" id="indisp-end-time">
-                </div>
-            </div>
-            <div style="display: flex; justify-content: end; gap:10px; margin-top: 15px;">
-                <button class="btn btn-secondary" id="cancel-indisp-event-btn">Annuler</button>
-                <!-- ID unique pour le bouton d'indisponibilité -->
-                <button class="btn btn-primary" id="submit-indisp-event-btn">OK</button>
-            </div>
-        </div>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            let calendar;
-    
-            // Gestion de la fermeture des modales
-            document.getElementById('cancel-indisp-event-btn').onclick = () => document.getElementById('indisp-modal').style.display = 'none';
-            document.getElementById('cancel-event-btn').onclick = () => document.getElementById('event-modal').style.display = 'none';
+
             document.getElementById('cancel-date-btn').onclick = () => document.getElementById('date-modal').style.display = 'none';
-    
-            // Initialisation du calendrier
+
             const calendarEl = document.getElementById('calendar');
+            const prestataireSelect = document.getElementById('prestataire-select');
+
+            // Initialisation du calendrier
             calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 headerToolbar: {
@@ -384,13 +384,14 @@
                     right: 'prev,next,timeGridWeek,dayGridMonth'
                 },
                 footerToolbar: {
-                    left: 'ajouterdispbtn',
+                    left: '',
                     center: '',
-                    right: 'ajouterindispbtn'
+                    right: 'ajoutshift'
                 },
                 events: '/api/planning',
                 eventColor: '#378006',
                 eventTextColor: 'white',
+                
                 buttonText: {
                     month: 'Mois',
                     week: 'Semaine'
@@ -404,14 +405,9 @@
                             document.getElementById('date-modal').style.display = 'block';
                         }
                     },
-                    ajouterdispbtn: {
-                        text: 'Ajouter disp.',
-                        click: () => document.getElementById('event-modal').style.display = 'block'
-                    },
-                    ajouterindispbtn: {
-                        text: 'Ajouter indisp.',
-                        click: () => document.getElementById('indisp-modal').style.display = 'block',
-                        className: 'btn-red'
+                    ajoutshift: {
+                        text: 'Affecter un shift',
+                        click: () => document.getElementById('popupContainer').style.display = 'block'
                     }
                 },
                 locale: 'fr',
@@ -424,37 +420,38 @@
     
             calendar.render();
             calendar.setOption('height', window.innerHeight - 120);
-    
-            // Gestion de la navigation par date
-            document.getElementById('submit-date-btn').addEventListener('click', () => {
-                const selectedDate = document.getElementById('date-input').value;
-                if (selectedDate) {
-                    calendar.gotoDate(selectedDate);
-                    document.getElementById('date-modal').style.display = 'none';
-                }
-            });
-    
-            // Gestion des événements
-            async function handleEventSubmit(type) {
-                // Sélection dynamique des IDs en fonction du type
-                const prefix = type === 'disponibilite' ? '' : 'indisp-';
-                
-                const startDate = document.getElementById(`${prefix}start-date`).value;
-                const startTime = document.getElementById(`${prefix}start-time`).value;
-                const endDate = document.getElementById(`${prefix}end-date`).value;
-                const endTime = document.getElementById(`${prefix}end-time`).value;
 
-                if (!startDate || !startTime || !endDate || !endTime) {
+            // Rafraîchir le calendrier quand la sélection change
+            prestataireSelect.addEventListener('change', () => {
+                calendar.refetchEvents();
+            });
+
+            document.getElementById('cancel-event-btn').onclick = () => document.getElementById('popupContainer').style.display = 'none';
+        
+            document.getElementById('submit-shift-btn').addEventListener('click', async () => {
+                const hotelName = document.getElementById('hotel-name').value;
+                const hotelAddress = document.getElementById('hotel-address').value;
+                const prestataireId = document.getElementById('prestataire-select-shift').value;
+                const fonction = document.getElementById('fonction').value;
+                const startDate = document.getElementById('shift-start-date').value;
+                const startTime = document.getElementById('shift-start-time').value;
+                const endDate = document.getElementById('shift-end-date').value;
+                const endTime = document.getElementById('shift-end-time').value;
+
+                if (!hotelName || !hotelAddress || !prestataireId || !fonction || !startDate || !startTime || !endDate || !endTime) {
                     alert("Veuillez remplir tous les champs");
                     return;
                 }
 
                 try {
-                    const response = await fetch('/api/disponibilites', {
+                    const response = await fetch('/api/shifts', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            type: type,
+                            user_id: prestataireId,
+                            hotel: hotelName,
+                            adresse_hotel: hotelAddress,
+                            fonction: fonction,
                             start: `${startDate}T${startTime}`,
                             end: `${endDate}T${endTime}`
                         })
@@ -463,18 +460,15 @@
                     if (!response.ok) throw new Error(await response.text());
                     
                     calendar.refetchEvents();
-                    document.getElementById(`${type === 'disponibilite' ? 'event' : 'indisp'}-modal`).style.display = 'none';
-                    alert('Événement enregistré !');
+                    document.getElementById('popupContainer').style.display = 'none';
+                    alert('Shift ajouté avec succès !');
                 } catch (error) {
                     console.error('Erreur:', error);
-                    alert("Erreur lors de l'enregistrement");
+                    alert("Erreur lors de l'ajout du shift");
                 }
-            }
-
-            // Gestionnaires séparés pour chaque type
-            document.getElementById('submit-event-btn').addEventListener('click', () => handleEventSubmit('disponibilite'));
-            document.getElementById('submit-indisp-event-btn').addEventListener('click', () => handleEventSubmit('indisponibilite'));
             });
+        
+        });
     </script>
 </body>
 </html>

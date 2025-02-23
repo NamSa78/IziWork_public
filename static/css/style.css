@@ -2,7 +2,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial;
+    font-family: 'Inter', Arial;
     background-color: #EFF5FB;
 }
 .page {
@@ -66,6 +66,7 @@ body {
     color: #0A1931;
     display: flex;
 }
+
 
 /* 🔄 Responsive */
 @media (max-width: 768px) {
@@ -140,9 +141,7 @@ select {
 }
 
 /* Disposition en ligne */
-.form-container h1{
-    font-size:;
-}
+
 .form-container h2 {
     font-size: xx-large;
     margin: 1% 0px;
@@ -489,6 +488,20 @@ tbody tr:last-child td {
   .container button:hover {
     background-color: #0A1931;
   }
+
+  .container .add-presta button {
+    margin: 0px;
+    padding: 20px 40px;
+    font-size: 2vh;
+    border: none;
+    background-color:#00000000;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .container .add-presta button:hover {
+    background-color: #0000001b !important;
+  }
 /* Style des messages flash */
 .alert {
     position: fixed;
@@ -646,4 +659,10 @@ tbody tr:last-child td {
     text-align: center;
     margin: 0 auto;
     justify-content: center;
+}
+
+
+/* Planning */
+.modal-content label {
+    font-size: unset
 }

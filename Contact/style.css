@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', Arial;
     margin: 0;
     padding: 0;
     
@@ -160,6 +160,7 @@ footer {
 .footer-content {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .contact-info {
@@ -169,14 +170,21 @@ footer {
 .contact-info p {
     margin: 5px 0;
 }
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
 .email {
     color: #142849;
     text-decoration: underline;
 }
 
 .legal-links {
+    padding: 2vh 0px;
     display: flex;
     flex-direction: column; /* Change to column layout */
+    align-items: end;
 }
 
 .legal-links a {

@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', Arial;
     margin: 0;
     padding: 0;
     background-color: #EFF5FB;
@@ -77,24 +77,14 @@ ul {
 footer {
     background-color: #ffffff;
     color: #142849;
-    padding: 10px 20px;
+    padding: 20px;
     margin-top: auto;
 }
 
-footer .footer-content {
+.footer-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-
-
-footer .logo-header {
-    order: -1; /* Place the logo first */
-}
-footer .footer-text {
-    margin-left: auto;
-    text-align: right;
 }
 
 .contact-info {
@@ -104,20 +94,38 @@ footer .footer-text {
 .contact-info p {
     margin: 5px 0;
 }
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
 .email {
     color: #142849;
     text-decoration: underline;
 }
 
 .legal-links {
+    padding: 2vh 0px;
     display: flex;
     flex-direction: column; /* Change to column layout */
+    align-items: end;
 }
 
 .legal-links a {
     color: #142849;
     text-decoration: none;
     margin: 5px 0; /* Adjust margin for better spacing */
+}
+
+.banner {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
 }
 
 /* Footer end */

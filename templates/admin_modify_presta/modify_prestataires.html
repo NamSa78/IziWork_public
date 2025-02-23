@@ -7,6 +7,8 @@
     <title>Tableau de Bord</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+
 </head>
 
 <body>
@@ -20,7 +22,9 @@
                 <h1>Modifier un prestataire</h1>
                 <section class="form-container">
                     <h1>Informations</h1>
-                    <form method="post" action="/admin/ajout/prestataires" class="form">
+                    <form method="POST" action="/admin/modify/prestataires" class="form">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="id" value="{{ form_data.id }}">
                         <div class="form-placement">
                             <div class="form-group">
                                 <label for="nom">Nom</label>
@@ -89,9 +93,8 @@
 
                         <div class="form-group password-section">
                             <label for="new-password">Mot de passe</label>
-                                <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe" required>
-                                <input type="password" id="confirm-password" name="confirm-password"
-                                    placeholder="Confirmer mot de passe" required>
+                                <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe">
+                                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirmer mot de passe" >
                         </div>
 
                         <div class="form-buttons">
@@ -104,14 +107,13 @@
     
     <!-- Par exemple, insérez ce bloc juste avant la fermeture de la balise </body> -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <script>
-        {% for category, message in messages %}
-        // Affichage simple via alerte (vous pouvez personnaliser le style selon la catégorie)
-        alert("{{ message }}");
-        {% endfor %}
-    </script>
-    {% endif %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
     {% endwith %}
 </body>
 

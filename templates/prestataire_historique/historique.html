@@ -6,50 +6,67 @@
     <title>Liste des Prestataires</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script defer src="{{ url_for('static', filename='js/presta_liste/script.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="page">
+        {% include 'includes/header.html' %}
+        <div class="page-content">
+            {% include 'includes/sidebar.html' %}
+            <div class="container">
+                <div class="header">
+                    <div class="title">
+                        <h1>Mon historique</h1>
+                    </div>
+                    <!-- Bouton pour copier uniquement les lignes sélectionnées -->
+                    <div class="add-presta">
+                        <button class="copy-btn" onclick="copySelectedRows()">
+                            <img src="{{ url_for('static', filename='image/copybtn.svg') }}"/>
+                        </button>
+                    </div>
+                </div>
 
-    {% include 'includes/header.html' %}
-    {% include 'includes/aside.html' %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sélection</th>
+                            <th>Nom de l'hôtel</th>
+                            <th>Date</th>
+                            <th>Horaire début</th>
+                            <th>Horaire fin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for shift in shifts %}
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox"></td>
+                            <td>
+                                {% if shift.date_debut == shift.date_fin %}
+                                    {{ shift.date_debut.strftime('%d/%m/%Y') }}
+                                {% else %}
+                                    {{ shift.date_debut.strftime('%d/%m/%Y') }} - {{ shift.date_fin.strftime('%d/%m/%Y') }}
+                                {% endif %}
+                            </td>
+                            <td>{{ shift.horaire_debut.strftime('%H:%M') }}</td>
+                            <td>{{ shift.horaire_fin.strftime('%H:%M') }}</td>
+                            <td>{{ shift.hotel }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4">Aucun shift passé trouvé</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-    <div class="container">
-        <div class="header">
-            <h2>Mon historique</h2>
-            <!-- Bouton pour copier uniquement les lignes sélectionnées -->
-            <button class="copy-btn" onclick="copySelectedRows()">
-                <img src="{{ url_for('static', filename='image/copybtn.svg') }}"/>
-            </button>
-        </div>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Sélection</th>
-                    <th>Nom de l'hôtel</th>
-                    <th>Date</th>
-                    <th>Horaire début</th>
-                    <th>Horaire fin</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for record in historique %}
-                <tr>
-                    <!-- Colonne de sélection -->
-                    <td><input type="checkbox" class="row-checkbox"></td>
-                    <td>{{ record.hotel.nom if record.hotel else 'Non défini' }}</td>
-                    <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
-                    <td>{{ record.debut.strftime('%H:%M:%S') }}</td>
-                    <td>{{ record.fin.strftime('%H:%M:%S') }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Modal de confirmation (optionnel, ici affiché après copie si besoin) -->
-    <div id="copy-popup" class="modal">
-        <div class="copy-content">
-            <p id="modalText">Copié !</p>
+            <!-- Modal de confirmation (optionnel, ici affiché après copie si besoin) -->
+            <div id="copy-popup" class="modal">
+                <div class="copy-content">
+                    <p id="modalText">Copié !</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -69,7 +86,7 @@
                 for (let i = 1; i < cells.length; i++) {
                     rowText.push(cells[i].innerText.trim());
                 }
-                copiedText += rowText.join(" \t ") + "\n";
+                copiedText += rowText.join(" ") + "\n";
             }
         });
         
