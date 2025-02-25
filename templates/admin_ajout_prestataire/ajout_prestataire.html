@@ -86,12 +86,22 @@
                                 <input type="text" id="siret" name="siret" value="{{ form_data.get('siret', '') }}">
                             </div>
                         </div>
-
-                        <div class="form-group password-section">
-                            <label for="new-password">Mot de passe</label>
-                                <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe" required>
-                                <input type="password" id="confirm-password" name="confirm-password"
-                                    placeholder="Confirmer mot de passe" required>
+                        <div class="form-placement form-row">
+                            <div class="form-group password-section">
+                                <label for="new-password">Mot de passe</label>
+                                    <input type="password" id="new-password" name="new-password" placeholder="Nouveau mot de passe" required>
+                                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirmer mot de passe" required>
+                            </div>
+                            <div class="form-group role-section">
+                                <label for="role">Rôle</label>
+                                <select id="role" name="role" required>
+                                    {% for role in UserRole %}
+                                        <option value="{{ role.value }}" {% if form_data.get('role') == role.value %}selected{% endif %}>
+                                            {{ role.name | capitalize }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-buttons">

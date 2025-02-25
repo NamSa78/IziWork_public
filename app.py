@@ -8,6 +8,9 @@ from functools import wraps
 from flask import abort
 from datetime import time, date
 from sqlalchemy import and_
+from enum import Enum
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///IZIWORK-BDD.db'
@@ -15,6 +18,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = '123456789'  # N'oubliez pas de mettre une clé secrète sécurisée
 
 db = SQLAlchemy(app)
+
+# Configuration de Flask-Mail
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Remplacez par votre serveur SMTP
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'nathan.linet2304@gmail.com'  # Remplacez par votre e-mail
+app.config['MAIL_PASSWORD'] = 'kyjo nevb tcom njau'  # Remplacez par votre mot de passe
+app.config['MAIL_DEFAULT_SENDER'] = 'nathan.linet2304@gmail.com'  # Remplacez par votre e-mail
+
+mail = Mail(app)
+
 
 # Créer un décorateur personnalisé pour les admins
 def admin_required(f):
@@ -28,6 +42,10 @@ def admin_required(f):
 # Initialisation de flask-login
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Nom de la fonction de connexion
+
+class UserRole(Enum):
+    USER = 'user'
+    ADMIN = 'admin'
 
 # Modèles
 class User(UserMixin, db.Model):
@@ -206,7 +224,7 @@ def modifier():
                 'city': adresse.ville
             })
 
-        return render_template('admin_modify_presta/modify_prestataires.html', form_data=form_data)
+        return render_template('admin_modify_presta/modify_prestataires.html', form_data=form_data, UserRole=UserRole)
 
     elif request.method == 'POST' and request.form.get("_method"):
         user_id = request.form.get('id')
@@ -355,6 +373,7 @@ def presta():
         siret = request.form.get('siret')
         new_password = request.form.get('new-password')
         confirm_password = request.form.get('confirm-password')
+        role = request.form.get('role', UserRole.USER.value)
         
         # Vérification des champs obligatoires
         if not (nom and prenom and email and new_password):
@@ -394,6 +413,7 @@ def presta():
             naissance=date_naissance,
             fonction=fonction,
             photo="",
+            role=role,
             siret=siret
         )
         db.session.add(new_user)
@@ -416,7 +436,7 @@ def presta():
         return render_template('liste_presta/liste_presta.html', users=users), 201
 
     # Pour le GET, on peut envoyer un dictionnaire vide
-    return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data={})
+    return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data={}, UserRole=UserRole)
 
 @app.route('/prestataires', methods=['GET', 'DELETE'])
 @login_required
@@ -553,50 +573,47 @@ def planning():
 @app.route('/api/planning')
 @login_required
 def get_planning():
-    prestataire_id = request.args.get('prestataire_id')
-    
+    # Récupérer l'ID de l'utilisateur connecté
+    user_id = current_user.id
+
     events = []
-    
-    # Si un prestataire est sélectionné, afficher ses dispo/indispo
-    if prestataire_id:
-        dispo = Disponibilite.query.filter_by(user_id=prestataire_id).all()
-        indispo = Indisponibilite.query.filter_by(user_id=prestataire_id).all()
-        
-        for d in dispo:
-            user = db.session.get(User, d.user_id)
-            events.append({
-                'title': f"{user.nom} {user.prenom} - Disponible",
-                'start': f"{d.date_debut}T{d.horaire_debut}",
-                'end': f"{d.date_fin}T{d.horaire_fin}",
-                'color': '#142849'
-            })
-        
-        for i in indispo:
-            user = db.session.get(User, i.user_id)
-            events.append({
-                'title': f"{user.nom} {user.prenom} - Indisponible",
-                'start': f"{i.date_debut}T{i.horaire_debut}",
-                'end': f"{i.date_fin}T{i.horaire_fin}",
-                'color': '#652C41'
-            })
-    
-    # Toujours afficher les shifts
-    shifts = Shift.query.filter_by(user_id=prestataire_id).all() if prestataire_id else Shift.query.all()
-    for s in shifts:
-        user = db.session.get(User, s.user_id)
+
+    # Récupérer les disponibilités de l'utilisateur connecté
+    dispo = Disponibilite.query.filter_by(user_id=user_id).all()
+    for d in dispo:
         events.append({
-            'title': f"{user.nom} {user.prenom} - {s.hotel} - {s.fonction}",  # Titre modifié
+            'title': "Disponible",
+            'start': f"{d.date_debut}T{d.horaire_debut}",
+            'end': f"{d.date_fin}T{d.horaire_fin}",
+            'color': '#142849'  # Couleur pour les disponibilités
+        })
+
+    # Récupérer les indisponibilités de l'utilisateur connecté
+    indispo = Indisponibilite.query.filter_by(user_id=user_id).all()
+    for i in indispo:
+        events.append({
+            'title': "Indisponible",
+            'start': f"{i.date_debut}T{i.horaire_debut}",
+            'end': f"{i.date_fin}T{i.horaire_fin}",
+            'color': '#652C41'  # Couleur pour les indisponibilités
+        })
+
+    # Récupérer les shifts de l'utilisateur connecté
+    shifts = Shift.query.filter_by(user_id=user_id).all()
+    for s in shifts:
+        events.append({
+            'title': f"{s.hotel} - {s.fonction}",  # Titre du shift
             'start': f"{s.date_debut}T{s.horaire_debut}",
             'end': f"{s.date_fin}T{s.horaire_fin}",
-            'color': '#1b2b50',
+            'color': '#1b2b50',  # Couleur pour les shifts
             'extendedProps': {
                 'hotel': s.hotel,
-                'adresse': s.adresse_hotel
+                'adresse': s.adresse_hotel,
+                'fonction': s.fonction
             }
         })
-    
-    return jsonify(events)
 
+    return jsonify(events)
 
 @app.route('/api/disponibilites', methods=['POST'])
 @login_required
@@ -661,36 +678,38 @@ def admin_planning():
 def get_admin_planning():
     prestataire_id = request.args.get('prestataire_id')
     
-    query = {}
-    if prestataire_id:
-        query['user_id'] = prestataire_id
-
-    dispo = Disponibilite.query.filter_by(**query).all()
-    indispo = Indisponibilite.query.filter_by(**query).all()
-    
     events = []
-    for d in dispo:
-        user = db.session.get(User, s.user_id)
-
-        events.append({
-            'title': f"{user.nom} {user.prenom} - Disponible",
-            'start': f"{d.date_debut}T{d.horaire_debut}",
-            'end': f"{d.date_fin}T{d.horaire_fin}",
-            'color': '#142849'
-        })
     
-    for i in indispo:
-        user = db.session.get(User, s.user_id)
+    # Si un prestataire est sélectionné, filtrer les disponibilités et indisponibilités par son ID
+    if prestataire_id:
+        dispo = Disponibilite.query.filter_by(user_id=prestataire_id).all()
+        indispo = Indisponibilite.query.filter_by(user_id=prestataire_id).all()
+        # Ajouter les disponibilités aux événements
+        for d in dispo:
+            user = db.session.get(User, d.user_id)
+            events.append({
+                'title': f"{user.nom} {user.prenom} - Disponible",
+                'start': f"{d.date_debut}T{d.horaire_debut}",
+                'end': f"{d.date_fin}T{d.horaire_fin}",
+                'color': '#142849'
+            })
+        
+        # Ajouter les indisponibilités aux événements
+        for i in indispo:
+            user = db.session.get(User, i.user_id)
+            events.append({
+                'title': f"{user.nom} {user.prenom} - Indisponible",
+                'start': f"{i.date_debut}T{i.horaire_debut}",
+                'end': f"{i.date_fin}T{i.horaire_fin}",
+                'color': '#652C41'
+            })
 
-        events.append({
-            'title': f"{user.nom} {user.prenom} - Indisponible",
-            'start': f"{i.date_debut}T{i.horaire_debut}",
-            'end': f"{i.date_fin}T{i.horaire_fin}",
-            'color': '#652C41'
-        })
+    # Gestion des shifts
+    if prestataire_id:
+        shifts = Shift.query.filter_by(user_id=prestataire_id).all()
+    else:
+        shifts = Shift.query.all()
     
-    # Toujours afficher les shifts
-    shifts = Shift.query.filter_by(user_id=prestataire_id).all() if prestataire_id else Shift.query.all()
     for s in shifts:
         user = db.session.get(User, s.user_id)
         events.append({
@@ -703,7 +722,7 @@ def get_admin_planning():
                 'adresse': s.adresse_hotel
             }
         })
-
+    
     return jsonify(events)
 
 @app.route('/api/shifts', methods=['POST'])
@@ -741,6 +760,41 @@ def add_shift():
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 500
+
+# Route pour afficher la page "mdp-oublie.html"
+@app.route('/mdp-oublie', methods=['GET'])
+def mdp_oublie():
+    return render_template('/mot-de-passe-oublie/mdp-oublie.html')
+
+# Route pour gérer la soumission du formulaire
+@app.route('/mdp-oublie', methods=['POST'])
+def mdp_oublie_submit():
+    email = request.form.get('email')
+
+    # Vérifier si l'e-mail existe dans la base de données
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        flash("Aucun utilisateur trouvé avec cette adresse e-mail.", "error")
+        return redirect(url_for('mdp_oublie'))
+
+    # Générer un token de réinitialisation de mot de passe (simplifié ici)
+
+    # Envoyer un e-mail avec le lien de réinitialisation
+    msg = Message("Réinitialisation de votre mot de passe", recipients=[user.email])
+    msg.body = f"Test"
+    
+    try:
+        mail.send(msg)
+        flash("Un e-mail de réinitialisation a été envoyé à votre adresse e-mail.", "success")
+        print("envoye")
+    except Exception as e:
+        print("fail")
+        flash("Une erreur s'est produite lors de l'envoi de l'e-mail. Veuillez réessayer.", "error")
+        print(f"Erreur lors de l'envoi de l'e-mail : {e}")
+
+    return redirect(url_for('mdp_oublie'))
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

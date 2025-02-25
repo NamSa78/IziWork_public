@@ -388,7 +388,16 @@
                     center: '',
                     right: 'ajoutshift'
                 },
-                events: '/api/planning',
+                events: function(fetchInfo, successCallback, failureCallback) {
+                    // Récupérer l'ID du prestataire sélectionné
+                    const prestataireId = prestataireSelect.value;
+
+                    // Faire une requête à l'API avec le prestataire_id
+                    fetch(`/api/admin-planning?prestataire_id=${prestataireId}`)
+                        .then(response => response.json())
+                        .then(data => successCallback(data))
+                        .catch(error => failureCallback(error));
+                },
                 eventColor: '#378006',
                 eventTextColor: 'white',
                 
@@ -423,7 +432,7 @@
 
             // Rafraîchir le calendrier quand la sélection change
             prestataireSelect.addEventListener('change', () => {
-                calendar.refetchEvents();
+                calendar.refetchEvents(); // Rafraîchir les événements avec le nouveau prestataire_id
             });
 
             document.getElementById('cancel-event-btn').onclick = () => document.getElementById('popupContainer').style.display = 'none';
@@ -467,7 +476,14 @@
                     alert("Erreur lors de l'ajout du shift");
                 }
             });
-        
+            // Gestion de la navigation par date
+            document.getElementById('submit-date-btn').addEventListener('click', () => {
+                const selectedDate = document.getElementById('date-input').value;
+                if (selectedDate) {
+                    calendar.gotoDate(selectedDate);
+                    document.getElementById('date-modal').style.display = 'none';
+                }
+            });
         });
     </script>
 </body>

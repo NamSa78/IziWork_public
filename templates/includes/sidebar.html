@@ -4,10 +4,12 @@
         <button class="toggle-btn">&#9776;</button>
         <nav class="sidebar-nav">
             <ul>
-                <li><a class="Planning" href="{{ url_for('planning') }}">PLANNING</a></li>
+                
                 {% if current_user.role == 'user' %}
+                    <li><a class="Planning" href="{{ url_for('planning') }}">PLANNING</a></li>
                     <li class="Prestataires"><a href="{{ url_for('historique') }}">HISTORIQUE</a></li>
                 {% else %}
+                    <li><a class="Planning" href="{{ url_for('admin_planning') }}">PLANNING</a></li>
                     <li class="Prestataires"><a href="{{ url_for('prestataires') }}">PRESTATAIRES</a></li>
                 {% endif %}
                 <li><a class="Compte" href="{{ url_for('compte') }}">COMPTE</a></li>

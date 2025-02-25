@@ -39,8 +39,8 @@
                 <div class="settings-box">
                     <h2>Mes réglages <img class="rouedenter" src="{{ url_for('static', filename='image/profile/rouedenter.svg')}}"/></h2>
                     <ul>
-                        <li><a href="#" id="changePasswordLink">Modifier mon mot de passe</a></li>
-                        <li><a href="#" id="changeEmailLink">Modifier mon adresse mail</a></li>
+                        <li><a href="{{ url_for('forgotPassword')}}" id="changePasswordLink">Modifier mon mot de passe</a></li>
+                        <li><a href="{{ url_for('forgotEmail')}}" id="changeEmailLink">Modifier mon adresse mail</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,16 +57,6 @@
         editProfileBtn.addEventListener('click', (e) => {
             e.preventDefault();
             alert("Vous avez cliqué sur 'Modifier mon profil' !");
-        });
-
-        changePasswordLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert("Vous avez cliqué sur 'Modifier mon mot de passe' !");
-        });
-
-        changeEmailLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            alert("Vous avez cliqué sur 'Modifier mon adresse mail' !");
         });
         });
     </script>

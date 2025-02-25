@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mot de passe oublié</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login/style.css') }}">
     <style>
         @font-face {
             font-family: 'Roboto';
@@ -14,14 +14,14 @@
 </head>
 <body>
     <nav>
-        <a href="../index.html"><img src="../images/Connexion/Boutton-retour.svg" alt="Retour" class="boutton-retour"></a>
+        <a href="{{ url_for('login') }}"><img src="{{ url_for('static', filename='image/login/Boutton-retour.svg')}}" alt="Retour" class="boutton-retour"></a>
     </nav>
     
     <div class="background-text">
         Mot de passe oublié
     </div>
     <div class="login-container">
-        <form id="loginForm" action="/mdp-oublie" method="POST">
+        <form id="forgotPasswordform" action="/mdp-oublie" method="POST">
             <div class="input-group">
                 <label for="email" class="roboto-font">Adresse mail</label>
                 <input type="email" id="email" name="email" required>
@@ -31,9 +31,9 @@
     </div>
     
     <footer>
-        <img src="../images/icone.svg" alt="Icone" class="icone">
-        <img src="../images/Connexion/fond.svg" alt="Fond" class="footer-background">
+        <img src="{{ url_for('static', filename='image/login/logo.svg')}}" alt="Icone" class="icone">
+        <img src="{{ url_for('static', filename='image/login/fond.svg')}}" alt="Fond" class="footer-background">
     </footer>
-    <script src="script.js"></script>
+    <script src="{{url_for('static', filename='js/login/script.js')}}"></script>
 </body>
 </html>

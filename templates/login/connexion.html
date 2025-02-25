@@ -31,7 +31,7 @@
             <div class="input-group-password">
                 <label for="password" class="roboto-font">Mot de passe</label>
                 <input type="password" id="password" name="password" required>
-                <a href="mdp-oublie.html" class="forgot-password">Mot de passe oublié</a>
+                <a href="{{url_for('mdp_oublie')}}" class="forgot-password">Mot de passe oublié</a>
             </div>
             <button type="submit">Connexion</button>
         </form>
@@ -41,6 +41,6 @@
         <img src="{{url_for('static', filename='image/login/logo.svg')}}" alt="Icone" class="icone">
         <img src="{{url_for('static', filename='image/login/fond.svg')}}" alt="Fond" class="footer-background">
     </footer>
-    <script src="script.js"></script>
+    <script src="{{url_for('static', filename='js/login/script.js')}}"></script>
 </body>
 </html>
