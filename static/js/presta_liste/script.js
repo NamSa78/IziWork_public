@@ -30,7 +30,7 @@ function closeModal() {
 
 // Confirme la suppression et envoie une requête DELETE à la route /prestataire
 function confirmDelete() {
-    fetch("/prestataires", {
+    fetch("/admin/prestataires", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -40,7 +40,7 @@ function confirmDelete() {
     .then(response => {
         if (response.ok) {
             // Rediriger vers /prestataire en cas de succès
-            window.location.href = "/prestataires";
+            window.location.href = "/admin/prestataires";
         } else {
             alert("Erreur lors de la suppression");
         }

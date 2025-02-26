@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>IZI WORK - Contact</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/contact/style.css') }}">
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <nav>
+            <div class="logo">
+                <img src="{{ url_for('static', filename='image/contact/logo-nav.svg') }}" alt="Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('acceuil')}}">Accueil</a></li>
+                <li><a href="{{ url_for('contactVitrine')}}">Contact</a></li>
+            </ul>
+            <ul class="nav-links nav-right">
+                <li><a href="{{ url_for('login')}}">Connexion</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div id="contact-header">
+                <h1>Contactez-nous</h1>
+                <p>Un besoin spécifique ? Une question ? Notre équipe est à votre écoute pour vous accompagner et répondre à vos attentes. Que ce soit pour établir un partenariat ou obtenir des informations, nous sommes disponibles pour vous offrir un service personnalisé.</p>
+            </div>
+            <div id="confirmation-header" class="hidden">
+                <h1>Message envoyé</h2>
+                <p>Merci de vous être contacté. Notre équipe vous répondra dans les plus brefs délais. Si votre demande est urgente, n'hésitez pas à nous joindre directement par téléphone ou e-mail.</p>
+            </div>
+            <div id="contact-section">
+                <div id="contact-form">
+                    <form id="contactForm">
+                        <div class="input-group">
+                            <label for="name">Nom & Prénom</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit">Envoyer</button>
+                    </form>
+                </div>
+                <div id="confirmation-message" class="hidden">
+                    <img src="{{ url_for('static', filename='image/contact/valider.svg') }}" alt="Message envoyé">
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="footer-content">
+                <div class="logo-header">
+                    <img src="{{ url_for('static', filename='image/contact/logo-footer.svg') }}" alt="Logo IZI WORK">
+                </div>
+                <div class="contact-info">
+                    <p>+33 1 55 55 55 55</p>
+                    <p class="email">contact@iziwork.fr</p>
+                    <p>13 avenue Victor Hugo, 91860 Epinay-Sous-Sénart</p>
+                    <div class="legal-links">
+                        <a href="{{ url_for('mentionLegal')}}">Mentions légales</a>
+                        <a href="{{ url_for('cgu')}}">Conditions générales d'utilisation</a>
+                    </div>
+                </div>
+                
+            </div>
+        </footer>
+        <script>
+            document.getElementById('contactForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                document.getElementById('contact-form').classList.add('hidden');
+                document.getElementById('contact-header').classList.add('hidden');
+                document.getElementById('confirmation-header').classList.remove('hidden');
+                document.getElementById('confirmation-message').classList.remove('hidden');
+            });
+        </script>
+    </body>
+</html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login/style.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <style>
         @font-face {
             font-family: 'Roboto';
@@ -15,7 +16,7 @@
 </head>
 <body>
     <nav>
-        <img src="{{url_for('static', filename='image/login/Boutton-retour.svg')}}" alt="Retour" class="boutton-retour" href="../index.html">
+        <img src="{{url_for('static', filename='image/login/Boutton-retour.svg')}}" alt="Retour" class="boutton-retour" href="{{ url_for('acceuil') }}">
     </nav>
     
     <div class="background-text">

@@ -26,6 +26,7 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'nathan.linet2304@gmail.com'  # Remplacez par votre e-mail
 app.config['MAIL_PASSWORD'] = 'kyjo nevb tcom njau'  # Remplacez par votre mot de passe
 app.config['MAIL_DEFAULT_SENDER'] = 'nathan.linet2304@gmail.com'  # Remplacez par votre e-mail
+app.config['CONTACT_EMAIL'] = 'nathan.linet23@gmail.com'
 
 mail = Mail(app)
 
@@ -125,7 +126,7 @@ with app.app_context():
     db.create_all()
     
 
-@app.route('/admin/ajout/hotels', methods=['GET'])
+""" @app.route('/admin/ajout/hotels', methods=['GET'])
 @login_required
 @admin_required
 def ajout_hotel():
@@ -136,7 +137,7 @@ def ajout_hotel():
     hotel = Dictionnaire(nom="Novotel Evry")
     db.session.add(hotel)
     db.session.commit()
-    return jsonify({"message": "Hotels added successfully"}), 201
+    return jsonify({"message": "Hotels added successfully"}), 201 """
 
 # Fonction pour charger un utilisateur
 @login_manager.user_loader
@@ -167,7 +168,7 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-# Exemple de route protégée
+""" # Exemple de route protégée
 @app.route('/users', methods=['GET'])
 @login_required
 def get_all_users():
@@ -184,7 +185,7 @@ def get_all_users():
             'naissance': user.naissance.isoformat() if user.naissance else None,
             'fonction': user.fonction
         })
-    return jsonify(result)
+    return jsonify(result) """
 
 
 @app.route('/admin/modify/prestataires', methods=['GET', 'POST'])
@@ -339,7 +340,7 @@ def modifier():
 
         return render_template('admin_modify_presta/modify_prestataires.html', form_data=new_form_data)
     
-@app.route('/')
+@app.route('/user')
 @login_required
 def compte():
     user = current_user
@@ -348,10 +349,6 @@ def compte():
     ).first()
     
     return render_template('compte/compte.html', user=user, adresse=adresse)
-
-@app.route('/api/test')
-def test_api():
-    return jsonify(db.session.scalars(select(User)).all())
 
 @app.route('/admin/ajout/prestataires', methods=['GET', 'POST'])
 @login_required
@@ -438,7 +435,7 @@ def presta():
     # Pour le GET, on peut envoyer un dictionnaire vide
     return render_template('admin_ajout_prestataire/ajout_prestataire.html', form_data={}, UserRole=UserRole)
 
-@app.route('/prestataires', methods=['GET', 'DELETE'])
+@app.route('/admin/prestataires', methods=['GET', 'DELETE'])
 @login_required
 @admin_required
 def prestataires():
@@ -549,7 +546,7 @@ def forgotEmail():
     
     return render_template('modify/email.html')
 
-@app.route('/historique', methods=['GET'])
+@app.route('/prestataires/historique', methods=['GET'])
 @login_required
 def historique():
     # Récupérer tous les shifts passés pour l'utilisateur connecté
@@ -762,12 +759,12 @@ def add_shift():
         return jsonify({"error": str(e)}), 500
 
 # Route pour afficher la page "mdp-oublie.html"
-@app.route('/mdp-oublie', methods=['GET'])
+@app.route('/forgot/password', methods=['GET'])
 def mdp_oublie():
     return render_template('/mot-de-passe-oublie/mdp-oublie.html')
 
 # Route pour gérer la soumission du formulaire
-@app.route('/mdp-oublie', methods=['POST'])
+@app.route('/forgot/password', methods=['POST'])
 def mdp_oublie_submit():
     email = request.form.get('email')
 
@@ -794,6 +791,23 @@ def mdp_oublie_submit():
 
     return redirect(url_for('mdp_oublie'))
 
+@app.route('/Contact', methods=['GET'])
+def contactVitrine():
+    return render_template('/vitrine/contact.html')
+
+@app.route('/Mention-Legal', methods=['GET'])
+def mentionLegal():
+    return render_template('/vitrine/mention-legal.html')
+
+
+@app.route('/CGU', methods=['GET'])
+def cgu():
+    return render_template('/vitrine/CGU.html')
+ 
+@app.route('/', methods=['GET'])
+def acceuil():
+    return render_template('/vitrine/CGU.html')
+    
 
 
 if __name__ == '__main__':

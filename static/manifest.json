@@ -1,0 +1,17 @@
+{
+    "name": "IZIWORK",
+    "short_name": "IZI",
+    "start_url": "/login",
+    "display": "standalone",
+    "background_color": "#EFF5FB",
+    "theme_color": "#EFF5FB",
+    "lang": "fr",
+    "orientation": "portrait",
+    "icons": [
+      {
+        "src": "icons/lettre-i.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

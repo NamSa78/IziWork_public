@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <title>Mon Compte</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contact/style.css') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
   <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
 </head>
 <body>  
@@ -57,7 +57,7 @@
         editProfileBtn.addEventListener('click', (e) => {
             e.preventDefault();
             alert("Vous avez cliqué sur 'Modifier mon profil' !");
-        });
+        }); 
         });
     </script>
 </body>

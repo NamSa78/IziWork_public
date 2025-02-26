@@ -1,0 +1,132 @@
+body {
+    font-family: 'Inter', Arial;
+    margin: 0;
+    padding: 0;
+    background-color: #EFF5FB;
+    
+}
+/* Nav begin */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #142849;
+    padding: 20px 20px;
+}
+
+.logo {
+    align-self: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-links a:hover {
+    color: #ddd;
+}
+
+.nav-right a {
+    border: 1px solid white; /* Added white border */
+    padding: 10px 15px; /* Added padding for better appearance */
+     /* Added border radius for rounded corners */
+}
+/* Nav end */
+
+/* Main begin */
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+h2 {
+    color: #444;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+p, ul {
+    color: #555;
+    line-height: 1.6;
+}
+ul {
+    padding-left: 20px;
+}
+/* Main end */
+
+/* Footer begin */
+footer {
+    background-color: #ffffff;
+    color: #142849;
+    padding: 20px;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-info {
+    margin-bottom: 10px; /* Add some space between contact info and legal links */
+}
+
+.contact-info p {
+    margin: 5px 0;
+}
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.email {
+    color: #142849;
+    text-decoration: underline;
+}
+
+.legal-links {
+    padding: 2vh 0px;
+    display: flex;
+    flex-direction: column; /* Change to column layout */
+    align-items: end;
+}
+
+.legal-links a {
+    color: #142849;
+    text-decoration: none;
+    margin: 5px 0; /* Adjust margin for better spacing */
+}
+
+.banner {
+    width: 100%;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+}
+
+/* Footer end */
+
