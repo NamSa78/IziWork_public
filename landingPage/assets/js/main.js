@@ -230,5 +230,32 @@
       prevEl: '.swiper-button-prev',
     }
   });
+  
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".mobile-nav-toggle");
+    const menuIcon = menuToggle.querySelector("i"); // Cibler uniquement l'icône, pas le bouton
+    const navMenu = document.querySelector(".navmenu");
+
+    menuToggle.addEventListener("click", function () {
+        navMenu.classList.toggle("active");
+
+        // Vérifier si l'icône est déjà "X" et la basculer
+        if (menuIcon.classList.contains("bi-list")) {
+            menuIcon.classList.remove("bi-list");
+            menuIcon.classList.add("bi-x");
+        } else {
+            menuIcon.classList.remove("bi-x");
+            menuIcon.classList.add("bi-list");
+        }
+
+        // S'assurer que le bouton `<button>` ne prend pas les classes `bi-list` ou `bi-x`
+        menuToggle.classList.remove("bi-list", "bi-x");
+    });
+});
+
+
+
+
+
 
 })();
