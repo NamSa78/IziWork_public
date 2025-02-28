@@ -1,0 +1,847 @@
+/**
+* Template Name: KnightOne
+* Template URL: https://bootstrapmade.com/knight-simple-one-page-bootstrap-template/
+* Updated: Oct 16 2024 with Bootstrap v5.3.3
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+*/
+
+/*--------------------------------------------------------------
+# Font & Color Variables
+# Help: https://bootstrapmade.com/color-system/
+--------------------------------------------------------------*/
+/* Fonts */
+:root {
+  --default-font: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+  --heading-font: "Raleway",  sans-serif;
+  --nav-font: "Poppins",  sans-serif;
+}
+
+/* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
+:root { 
+  --background-color: #ffffff; /* Background color for the entire website, including individual sections */
+  --default-color: #ffffff; /* Default color used for the majority of the text content across the entire website */
+  --heading-color: #142849; /* Color for headings, subheadings and title throughout the website */
+  --accent-color: #ffffff /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+  --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+  --contrast-color: #ffffff; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+}
+
+/* Nav Menu Colors - The following color variables are used specifically for the navigation menu. They are separate from the global colors to allow for more customization options */
+:root {
+  --nav-color: #ffffff;  /* The default color of the main navmenu links */
+  --nav-hover-color: #ffff; /* Applied to main navmenu links when they are hovered over or active */
+  --nav-mobile-background-color: #142849; /* Used as the background color for mobile navigation menu */
+  --nav-dropdown-background-color: #142849; /* Used as the background color for dropdown items that appear when hovering over primary navigation items */
+  --nav-dropdown-color: #142849; /* Used for navigation links of the dropdown items in the navigation menu. */
+  --nav-dropdown-hover-color: #142849; /* Similar to --nav-hover-color, this color is applied to dropdown navigation links when they are hovered over. */
+}
+
+/* Color Presets - These classes override global colors when applied to any section or element, providing reuse of the sam color scheme. */
+
+.light-background {
+  --background-color: #f9f9f9;
+  --surface-color: #ffffff;
+}
+
+.dark-background {
+  --background-color: #000000;
+  --default-color: #ffffff;
+  --heading-color: #ffffff;
+  --surface-color: #000000;
+  --contrast-color: #ffffff;
+}
+
+/* Smooth scroll */
+:root {
+  scroll-behavior: smooth;
+}
+
+/*--------------------------------------------------------------
+# General Styling & Shared Classes
+--------------------------------------------------------------*/
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  text-decoration: none;
+}
+
+.hero-container {
+  position: relative;
+  width: 100%;
+  max-width: 10000px; /* Ajustez selon votre image */
+  margin: auto;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-logo {
+  width: 300px; /* Ajustez selon la taille souhaitée */
+  margin-bottom: 15px;
+}
+
+.hero-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white; /* Adaptez la couleur en fonction de l'image */
+}
+
+.hero-content h2 {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border: 2px solid #72828A  ;
+  background-color: #72828A;
+  color: #434E5F;
+  text-decoration: none;
+}
+
+
+
+/*--------------------------------------------------------------
+# Global Header
+--------------------------------------------------------------*/
+.header {
+  background-color: #142849 !important;
+  padding: 10px 0;
+  transition: all 0.5s;
+  z-index: 997;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.header .logo {
+  line-height: 1;
+}
+
+
+.header .logo h1 {
+  font-size: 30px;
+  margin: 0;
+  font-weight: 700;
+  color: white;
+}
+
+/* Style uniquement pour le bouton "Connexion" dans la barre de navigation */
+.header .cta-btn {
+  display: inline-block;
+  padding: 8px 20px; /* Ajuste l'espace intérieur */
+  border: 2px solid white; /* Bordure blanche */
+  color: white; /* Texte en blanc */
+  background: transparent; /* Fond transparent */
+  text-decoration: none; /* Pas de soulignement */
+  transition: background 0.3s ease, color 0.3s ease; /* Effet fluide */
+}
+
+/* Effet au survol */
+.header .cta-btn:hover {
+  background: white; /* Fond blanc */
+  color: #142849; /* Texte bleu */
+}
+
+
+/* Global Header on Scroll
+------------------------------*/
+.scrolled .header {
+  --background-color: #142849;
+}
+
+
+  .navmenu ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    align-items: center;
+  }
+
+  .navmenu li {
+    position: relative;
+    color: white;
+    font-weight: bolder;
+    font-size: 18px;
+  }
+
+  .navmenu>ul>li {
+    white-space: nowrap;
+    padding: 15px 14px;
+  }
+  
+/*--------------------------------------------------------------
+# Global Footer
+--------------------------------------------------------------*/
+.footer {
+  color: var(#72828A);
+  background-color: var(#EFF5FB);
+  text-align: center;
+  padding-top: 50px 0;
+
+}
+
+.footer-title {
+    width: 100%;
+    text-align: center;
+    background-color: #EFF5FB; 
+    padding: 20px 0; 
+}
+
+.footer-title1 {
+    font-size: 50px; 
+    font-weight: bold;
+    color: #72828A; 
+    margin: 0; 
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.footer-recontact{
+  background-color: #EFF5FB;
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+
+.footer-heading {
+    font-size: 275px; 
+    font-weight: bold;
+    color: #72828A; 
+    margin: 0; 
+    padding: 0;
+}
+
+.footer-content {
+  background-color: #EFF5FB;
+  padding-left: 30px;
+  padding-top: 30px;
+  color: #72828A;
+}
+
+
+/*--------------------------------------------------------------
+# Scroll Top Button
+--------------------------------------------------------------*/
+
+#scroll-top {
+  position: fixed; /* Fixé sur l'écran */
+  bottom: 20px; /* Distance par rapport au bas */
+  right: 20px; /* Distance par rapport à la droite */
+  background-color: #142849; /* Fond bleu foncé */
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  opacity: 0; /* Cachée par défaut */
+  pointer-events: none; /* Empêche le clic quand elle est cachée */
+}
+
+/* Lorsque l’utilisateur scroll, elle apparaît */
+#scroll-top.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Icône de la flèche */
+#scroll-top i {
+  font-size: 24px; 
+  color: white; 
+}
+
+/* Effet au survol */
+#scroll-top:hover {
+  background-color: #0d1a3a; 
+  transform: scale(1.1); 
+}
+
+/*--------------------------------------------------------------
+# Global Sections
+--------------------------------------------------------------*/
+
+.image-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  margin-top: -280px; 
+  margin-right: -50px;
+}
+
+.image-droite {
+  max-width: 75%; 
+  height: auto; 
+}
+
+
+/*--------------------------------------------------------------
+# Global Section Titles
+--------------------------------------------------------------*/
+.section-title {
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 55px;
+  font-weight: 300;
+  font-family: Inter;
+  margin-top: 40px;
+  padding-top: 40px;
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+  position: left;
+  line-height: 70px;
+}
+
+.section-title h2:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: var(--accent-color);
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.texte1 p {
+  font-size: 24px; 
+  line-height: 35px; 
+  color: black; 
+  font-weight: 52; 
+  font-family: Crimson Text;
+  text-align: left;
+  padding-right: -40px;
+}
+
+
+/*--------------------------------------------------------------
+# About Section
+--------------------------------------------------------------*/
+
+.read-more {
+  display: inline-block;
+  padding: 13px 37px;
+  margin-top: 40px;
+  margin-left: 150px;
+  line-height: 22px;
+  color: #434E5F;
+  background: #72828A; 
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-align: center;
+  font-size: 25px;
+}
+
+/* Effet au survol */
+.read-more:hover {
+  background: grey;
+  color: white;
+}
+
+/* Corriger la couleur de l'icône */
+.read-more i {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.services-background {
+  background: none !important; /* Supprime tout fond de couleur */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 100px 0;
+  color: white;
+}
+
+.services-background h2 {
+  position: relative;
+  top: -50px; /* Déplace le titre plus haut */
+  font-size: px !important; /* Augmente la taille */
+  font-family: "Inter", sans-serif; /* Applique la police Inter */
+  font-weight: 700; /* Rend le titre plus épais */
+  margin-bottom: 20px; /* Ajuste l'espace sous le titre */
+}
+
+/* Center the "Hébergement" and "Restauration" cards on the page */
+.services-background .container {
+    display: flex;
+    justify-content: center; /* Center the cards horizontally */
+    align-items: center; /* Center the cards vertically */
+    flex-direction: column; /* Stack the cards vertically */
+}
+
+.services-background .row {
+    display: flex;
+    justify-content: center; /* Center the cards horizontally */
+    align-items: center; /* Center the cards vertically */
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+}
+
+.services-background .service-item {
+    background: rgba(255, 255, 255, 0.3); /* Slightly transparent background */
+    padding: 30px;
+    margin: 10px; /* Add margin between cards */
+    text-align: center; /* Center text inside the cards */
+}
+
+/* Vérifie que l’image prend toute la place et ne soit pas couverte par une autre couleur */
+.services-img {
+  position: absolute;
+  border: 45px solid white !important; /* Ajoute une bordure blanche */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Assure que l’image couvre toute la section */
+  z-index: 0;
+}
+
+/* Supprime l’overlay s’il gêne */
+.services-background::before {
+  background: none !important; /* Désactive toute couche semi-transparente */
+  border: 45px solid white !important;
+}
+
+/* Placer le contenu au-dessus de l’image */
+.services-background .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Style du titre */
+.services-background h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+/* Style des services */
+.services-background .service-item {
+  background: rgba(255, 255, 255, 0.3); /* Fond légèrement transparent */
+  padding: 30px;
+}
+
+
+/*--------------------------------------------------------------
+# Clients Section
+--------------------------------------------------------------*/
+.clients {
+  background-color: #142849;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.clients .section-title {
+  text-align: center;
+  margin-bottom: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.clients .section-title h2 {
+  color: white;
+  font-family: "Inter", sans-serif;
+}
+
+.clients .client-logo {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  background: white;
+  height: 120px;
+  width: 120px;
+}
+
+.clients .client-logo img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.clients .clients-wrap {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/*--------------------------------------------------------------
+# Recontact Form Section
+--------------------------------------------------------------*/
+.recontact-form {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  flex-direction: row;
+  padding: 20px 0;
+}
+.form-recontact-group{
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+
+}
+.form-recontact-group label{
+  width:auto;
+}
+.form-recontact-group-checkbox{
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  flex-direction: row;
+}
+.form-recontact-group-checkbox input{
+  margin-top : 1.25%;
+}
+
+.recontact-form input[type="email"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.submit-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.testimonials {
+  padding: 60px 0;
+  background: #fff;
+}
+
+.testimonials .section-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.testimonials .section-title h2 {
+  color: #000;
+  text-align: center;
+}
+
+.testimonial-item {
+  text-align: center;
+  padding: 30px;
+}
+
+.testimonial-item .testimonial-img {
+  width: 120px;
+  border-radius: 50%;
+  margin: 0 auto 20px auto;
+}
+
+.testimonial-item h3 {
+  font-size: 15px;
+  margin: 10px 0 5px 0;
+  color: #999;
+  padding-bottom: 20px;
+}
+
+.testimonial-item h4 {
+  font-size: 20px;
+  justify-content: center;
+  color: black;
+  margin: 0 0 15px 0;
+}
+
+.testimonials-slider .swiper-button-prev,
+.testimonials-slider .swiper-button-next {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.testimonials-slider:hover .swiper-button-prev,
+.testimonials-slider:hover .swiper-button-next {
+  opacity: 1;
+}
+
+.footer-contact {
+  background-color: #EFF5FB;
+  padding: 40px 0;
+  color: #72828A;
+}
+
+.footer-contact .section-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.footer-contact .section-title h2 {
+  color: #72828A;
+  font-size: 24px;
+}
+
+.footer-contact .contact-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.footer-contact .form-control {
+  padding: 12px 15px;
+  border: 1px solid #72828A;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.footer-contact button {
+  background: #72828A;
+  border: none;
+  padding: 10px 30px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.footer-contact button:hover {
+  opacity: 0.9;
+}
+
+htlm, body{
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  
+}
+
+*{
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Positionner correctement le bouton burger */
+.mobile-nav-toggle {
+  display: block;
+  font-weight: bolder;
+  position: absolute;
+  right: 15px;
+  font-size: 30px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001; /* Toujours au-dessus */
+}
+
+/* Ajuster la navbar sur mobile */
+@media screen and (max-width: 768px) {
+  .header {
+      padding: 5px 15px;
+      height: 60px; /* Réduire la hauteur */
+  }
+
+  .navmenu {
+      display: none; /* Cachée par défaut */
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background: #142849;
+      padding: 15px 0;
+      z-index: 1000;
+  }
+
+  .navmenu.active {
+      display: flex; /* Affiche le menu */
+      flex-direction: column;
+  }
+
+  .navmenu ul {
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+  }
+
+  .navmenu li {
+      margin: 10px 0;
+  }
+}
+
+@media screen and (min-width: 600px) {
+   .mobile-nav-toggle {
+    display: none;
+  }
+}
+
+/* Réglages pour écrans de moins de 768px */
+@media screen and (max-width: 768px) {
+  
+  /* Ajustement du header */
+  .header {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .navmenu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mobile-nav-toggle {
+    display: block;
+  }
+
+  /* Hero Section */
+  .hero-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-content h2 {
+    padding-top: 45%;
+    font-size: 24px;
+  }
+
+  .hero-logo {
+    width: 80%;
+  }
+
+  .cta-btn {
+    width: 80%;
+    padding: 10px;
+    font-size: 18px;
+  }
+
+  /* Services */
+  .services-background .row {
+    flex-direction: column;
+  }
+
+  /* Section Clients */
+  .clients .client-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Témoignages */
+  .testimonial-item {
+    padding: 15px;
+  }
+
+  /* Footer */
+  .footer-title {
+    display: none;
+  }
+
+  .footer-content {
+    text-align: center;
+  }
+
+  .navmenu.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: #142849;
+    padding: 10px 0;
+  }
+  
+  .navmenu.active ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .navmenu.active li {
+    margin: 10px 0;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .image-container .image-droite {
+    display: none;
+  }
+
+  .hero-container .hero-logo{
+    display: none;
+  }
+
+  .read-more{
+    margin-left: 30%;
+  }
+
+  #scroll-top {
+    display: none !important;
+  }
+
+  .mobile-nav-toggle i + i {
+    display: none !important;
+}
+
+    /* Centrer les logos des clients */
+  .clients .clients-wrap {
+    display: flex;
+    margin-left: 1%;
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si nécessaire */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    gap: 20px; /* Espacement entre les logos */
+  }
+
+  /* Ajuster la taille des logos pour éviter les déséquilibres */
+  .clients .client-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 120px; /* Ajuste la taille */
+    height: 120px;
+    background: white;
+    border-radius: 10px; /* Arrondi les coins si nécessaire */
+    padding: 10px; /* Espacement interne */
+  }
+
+  /* Assurer que les images ne débordent pas */
+  .clients .client-logo img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .header .cta-btn {
+      display: none !important; /* Masquer sur mobile */
+  }
+}
+
+
+
+
+
+
+footer{
+  background-color: #EFF5FB;
+  padding: 20px 20px;
+}

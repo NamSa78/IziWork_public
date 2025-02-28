@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Accueil</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='accueil/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='accueil/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='accueil/assets/vendor/aos/aos.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='accueil/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='accueil/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{{ url_for('static', filename='accueil/assets/css/main.css') }}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+
+      <a href="{{ url_for('acceuil') }}" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">IZI WORK</h1>
+      </a>
+
+      <button class="mobile-nav-toggle">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="{{ url_for('acceuil')}}" class="active">Acceuil</a></li>
+          <li><a href="{{ url_for('contactVitrine') }}">Contact</a></li>
+        </ul>
+      </nav>  
+
+      <a class="cta-btn" href="{{ url_for('login') }}">Connexion</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="hero-container">
+      <img src="{{ url_for('static', filename='accueil/assets/img/clients/ImagePrinc.svg') }}" alt="Image principale" class="hero-image">
+      <div class="hero-content">
+          <img src="{{ url_for('static', filename='accueil/assets/img/clients/icone.svg') }}" alt="Logo" class="hero-logo">
+          <h2>La qualité en renfort à votre service</h2>
+          <a class="cta-btn" href="{{ url_for('login') }}">Connexion</a>
+      </div>
+    </div>
+  
+
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>A vos côtés pour<br>une hospitalité<br>d'exeption.</h2>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+        <div class="row gy-4">
+            <div class="col-md-6 texte1" data-aos="fade-up" data-aos-delay="200">
+                <p>
+                    Fort de plusieurs années dans l'hôtellerie et l'intérim, 
+                    <br>nous avons créé Izi Work pour offrir aux hôtels un 
+                    <br>service de renfort sur-mesure. Notre équipe de 
+                    <br>professionnels qualifiés s'adapte à vos besoins avec 
+                    <br>flexibilité. Avec nos solutions rapides et efficaces, vous 
+                    <br>assurez à vos clients une expérience mémorable tout 
+                    <br>en optimisant vos équipes.
+                </p>
+                <a href="{{ url_for('contactVitrine') }}" class="read-more"><span>Nous<br>contacter</span></a>
+            </div>
+    
+            <!-- Image à droite -->
+            <div class="col-md-6 image-container" data-aos="fade-up" data-aos-delay="200">
+                <img src="{{ url_for('static', filename='accueil/assets/img/clients/compart2.svg') }}" alt="Description" class="image-droite">
+            </div>
+        </div>
+    </div>
+    
+
+    <section id="services" class="services section">
+      <div class="services-background">
+          <!-- Image en fond -->
+          <img src="{{ url_for('static', filename='accueil/assets/img/clients/Service.svg') }}" alt="Nos services" class="services-img">
+  
+          <div class="container">
+              <!-- Section Title -->
+              <div class="section-title" data-aos="fade-up">
+                  <h2>Nos services</h2>
+              </div><!-- End Section Title -->
+  
+              <div class="row gy-4">
+                  <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                      <div class="service-item position-relative">
+                              <h3>Hébergement</h3>
+                          <p>Des réceptionnistes qualifiés pour assurer un accueil fluide et professionnel, adaptés à vos besoins en toute flexibilité.</p>
+                      </div>
+                  </div><!-- End Service Item -->
+  
+                  <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                      <div class="service-item position-relative">
+                              <h3>Restauration</h3>
+                          <p>Un renfort de personnel expérimenté pour garantir un service en salle et en cuisine irréprochable, même en période de forte affluence.</p>
+                      </div>
+                  </div><!-- End Service Item -->
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  
+      </div>
+      <section id="clients" class="clients section" style="background-color: #142849;">
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <div class="container section-title" data-aos="fade-up">
+            <h2 style="color: white;">Ils nous font confiance</h2>
+          </div>
+          <div class="row clients-wrap">
+            <div class="client-logo">
+              <img src="{{ url_for('static', filename='accueil/assets/img/clients/novotel.svg') }}" class="img-fluid" alt="">
+            </div>
+
+            <div class="client-logo">
+              <img src="{{ url_for('static', filename='accueil/assets/img/clients/ibisH.svg') }}" class="img-fluid" alt="">
+            </div>
+
+            <div class="client-logo">
+              <img src="{{ url_for('static', filename='accueil/assets/img/clients/ibisB.svg') }}" class="img-fluid" alt="">
+            </div>
+
+            <div class="client-logo">
+              <img src="{{ url_for('static', filename='accueil/assets/img/clients/ibisI.svg') }}" class="img-fluid" alt="">
+            </div>
+
+            <div class="client-logo">
+              <img src="{{ url_for('static', filename='accueil/assets/img/clients/easyJet.svg') }}" class="img-fluid" alt="">
+            </div>
+
+            <div class="client-logo">
+              <img src="{{ url_for('static', filename='accueil/assets/img/clients/autre.svg') }}" class="img-fluid" alt="">
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </section><!-- /Call To Action Section -->
+
+    <!-- ======= Testimonials Section ======= -->
+    <section id="testimonials" class="testimonials">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Ce que disent nos clients</h2>
+        </div>
+
+        <div class="testimonials-slider swiper">
+          <div class="swiper-wrapper">
+
+            <!-- Testimonial item 1 -->
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <h3>RÉSPONSABLE HÉBERGEMENT D’UN HÔTEL X</h3>
+                <h4>“Grâce à IZIWORK, nous avons pu faire face à un pic d'activité<br>inattendu sans compromettre la qualité de notre accueil.<br> Le personnel est professionnel et rapidement opérationnel. <br>Une vraie tranquillité d’esprit !”</h4>
+              </div>
+            </div>
+
+            <!-- Testimonial item 2 -->
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <class="testimonial-img" alt="">
+                <h3>RÉSPONSABLE RESTAURATION D’UN HÔTEL X</h3>
+                <h4>"Les intérimaires envoyés par IZIWORK sont toujours ponctuels<br>et bien formés. Ils se sont parfaitement intégrés à notre équipe,<br>offrant un service fluide et irréprochable à nos clients."</h4>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <class="testimonial-img" alt="">
+                <h3>RÉSPONSABLE RH D’UN HÔTEL X</h3>
+                <h4>"IZIWORK nous accompagne depuis plusieurs mois, et nous<br>sommes ravis de leur réactivité et de la qualité des profils proposés.<br>Un véritable atout pour notre gestion des ressources humaines."</h4>
+              </div>
+            </div>
+
+            <div class="swiper-slide">
+              <div class="testimonial-item">
+                <class="testimonial-img" alt="">
+                <h3>DIRECTEUR D'EXPLOITATION D’UN HÔTEL X</h3>
+                <h4>"En période de forte affluence, IZIWORK est notre<br>solution de confiance. Leur capacité à fournir du<br>personnel compétent à la dernière minute est<br>impressionnante."</h4>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Navigation arrows -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    </section>  
+  </main>
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='accueil/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+
+  <!-- Main JS File -->
+  <script src="{{ url_for('static', filename='accueil/assets/js/main.js') }}"></script>
+
+  <!-- ======= Footer Contact Section ======= -->
+  <footer>
+    <div class="footer-recontact">
+      <h4 class="footer-title1">Être recontacté</h4>
+      <form action="#" method="post" class="recontact-form">
+        <div class="form-recontact-group">
+          <input type="email" name="email" placeholder="Votre email" required>
+          <div class="form-recontact-group-checkbox">
+            <input type="checkbox" name="consent" id="consent" required>
+            <label for="consent">
+              J'accepte que mon adresse e-mail soit utilisée pour être recontacté. 
+              <a href="{{ url_for('cgu') }}" target="_blank">En savoir plus</a>.
+            </label>
+          </div>
+        
+        </div>
+        <button type="submit" class="submit-btn">
+          <img src="{{ url_for('static', filename='accueil/assets/img/clients/validé.svg') }}" alt="Valider">
+        </button>
+      </form>
+      <p>En soumettant ce formulaire, vous acceptez notre <a href="{{ url_for('cgu') }}" target="_blank">politique de confidentialité</a>.</p>
+      <p>Vous pouvez exercer vos droits d'accès, de rectification ou de suppression en <a href="{{ url_for('contactVitrine') }}">nous contactant</a>.</p>
+    </div>
+    <div class="footer-content">
+      <div class="contact-info">
+          <p>+33 1 55 55 55 55</p>
+          <p class="email">contact@iziwork.fr</p>
+          <p>13 avenue Victor Hugo, 91860 Epinay-Sous-Sénart</p>
+      </div>
+      <div class="legal-links">
+          <a href="{{ url_for('mentionLegal') }}">Mentions légales</a>
+          <a href="{{ url_for('cgu') }}">Conditions générales d'utilisation</a>
+      </div>
+  </div>
+  <div class="footer-title">
+      <h5 class="footer-heading">IZI WORK</h5>
+  </div>
+</footer> 
+
+</body>
+
+</html>

@@ -489,8 +489,28 @@ a:hover {
 --------------------------------------------------------------*/
 .recontact-form {
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 10px;
+  flex-direction: row;
+  padding: 20px 0;
+}
+.form-recontact-group{
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+
+}
+.form-recontact-group label{
+  width:auto;
+}
+.form-recontact-group-checkbox{
+  display: flex;
+  align-items: start;
+  gap: 10px;
+  flex-direction: row;
+}
+.form-recontact-group-checkbox input{
+  margin-top : 1.25%;
 }
 
 .recontact-form input[type="email"] {
@@ -605,6 +625,7 @@ htlm, body{
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  
 }
 
 *{
@@ -820,3 +841,7 @@ htlm, body{
 
 
 
+footer{
+  background-color: #EFF5FB;
+  padding: 20px 20px;
+}

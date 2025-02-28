@@ -806,7 +806,7 @@ def cgu():
  
 @app.route('/', methods=['GET'])
 def acceuil():
-    return render_template('/vitrine/CGU.html')
+    return render_template('/vitrine/accueil.html')
     
 
 

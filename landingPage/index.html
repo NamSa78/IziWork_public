@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - KnightOne Bootstrap Template</title>
+  <title>Accueil</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -22,6 +22,7 @@
 
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
   <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
@@ -238,11 +239,23 @@
     <div class="footer-recontact">
       <h4 class="footer-title1">Être recontacté</h4>
       <form action="#" method="post" class="recontact-form">
-        <input type="email" name="email" placeholder="Votre email" required>
+        <div class="form-recontact-group">
+          <input type="email" name="email" placeholder="Votre email" required>
+          <div class="form-recontact-group-checkbox">
+            <input type="checkbox" name="consent" id="consent" required>
+            <label for="consent">
+              J'accepte que mon adresse e-mail soit utilisée pour être recontacté. 
+              <a href="#" target="_blank">En savoir plus</a>.
+            </label>
+          </div>
+        
+        </div>
         <button type="submit" class="submit-btn">
           <img src="assets/img/clients/validé.svg" alt="Valider">
         </button>
       </form>
+      <p>En soumettant ce formulaire, vous acceptez notre <a href="#" target="_blank">politique de confidentialité</a>.</p>
+      <p>Vous pouvez exercer vos droits d'accès, de rectification ou de suppression en <a href="#">nous contactant</a>.</p>
     </div>
     <div class="footer-content">
       <div class="contact-info">
